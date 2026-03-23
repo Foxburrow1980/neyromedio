@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Каталог ИИ-ассистентов | Нейромедиа</title>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+:root{
+--primary:#00D9FF;
+--secondary:#6B3FD6;
+--dark:#0F1117;
+--text:#E8E8F0;
+}
+
+body{
+background:#0F1117;
+color:#E8E8F0;
+font-family:'Inter',sans-serif;
+overflow-x:hidden;
+}
+
+
+/* OPENAI STYLE BACKGROUND */
+
+.ai-network{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 20% 20%, rgba(0,217,255,0.15), transparent 40%),
+radial-gradient(circle at 80% 80%, rgba(107,63,214,0.15), transparent 40%);
+z-index:-2;
+}
+
+.ai-network::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background-image:
+linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+background-size:60px 60px;
+animation:networkMove 40s linear infinite;
+}
+
+@keyframes networkMove{
+0%{transform:translate(0,0)}
+100%{transform:translate(-60px,-60px)}
+}
+
+
+/* GLASS */
+
+.glass{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(16px);
+border:1px solid rgba(255,255,255,0.08);
+}
+
+
+/* CARDS */
+
+.assistant-card{
+background:linear-gradient(145deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));
+border:1px solid rgba(255,255,255,0.08);
+border-radius:2rem;
+padding:1.8rem;
+transition:all .4s;
+transform-style:preserve-3d;
+}
+
+.assistant-card:hover{
+transform:rotateX(6deg) rotateY(-6deg) scale(1.04);
+box-shadow:
+0 30px 80px rgba(0,217,255,0.15),
+0 0 50px rgba(0,217,255,0.1);
+}
+
+.assistant-image{
+width:100%;
+height:190px;
+object-fit:cover;
+border-radius:1rem;
+margin-bottom:1rem;
+border:1px solid rgba(255,255,255,0.1);
+transition:.5s;
+}
+
+.assistant-card:hover .assistant-image{
+transform:scale(1.08);
+filter:brightness(1.1);
+}
+
+.assistant-icon{
+width:60px;
+height:60px;
+background:rgba(0,217,255,0.1);
+border-radius:18px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:1rem;
+border:1px solid rgba(0,217,255,0.2);
+}
+
+.feature-tag{
+display:inline-block;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
+padding:0.3rem 1rem;
+border-radius:30px;
+font-size:.7rem;
+margin-right:.4rem;
+margin-bottom:.4rem;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="ai-network"></div>
+
+
+<!-- NAV -->
+
+<nav class="fixed top-0 w-full glass py-4 px-6 z-50">
+
+<div class="container mx-auto flex justify-between items-center">
+
+<div class="flex items-center gap-3">
+
+<div class="w-10 h-10 bg-gradient-to-tr from-cyan-400 to-purple-600 rounded-lg flex items-center justify-center">
+<i data-lucide="brain-circuit"></i>
+</div>
+
+<span class="text-xl font-black">НЕЙРОМЕДИА</span>
+
+</div>
+
+<a href="neuro.html" class="bg-cyan-500 text-black px-6 py-2 rounded-full font-bold text-sm">
+НА ГЛАВНУЮ
+</a>
+
+</div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<header class="pt-32 pb-16 text-center">
+
+<h1 class="text-5xl font-black mb-6">
+КАТАЛОГ <span style="color:#00D9FF">ИИ-АССИСТЕНТОВ</span>
+</h1>
+
+<p class="text-gray-400">
+Выберите цифрового сотрудника для бизнеса
+</p>
+
+</header>
+
+
+<!-- ASSISTANTS -->
+
+<section class="py-16 px-6 container mx-auto">
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+
+<!-- 1 -->
+
+<div class="assistant-card">
+<img src="images/ai-secretary.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="briefcase"></i></div>
+<h3 class="text-xl font-bold mb-2">ИИ-Секретарь</h3>
+<p class="text-sm text-gray-400 mb-3">Прием звонков и запись</p>
+<span class="feature-tag">WhatsApp</span>
+<span class="feature-tag">Telegram</span>
+</div>
+
+
+<!-- 2 -->
+
+<div class="assistant-card">
+<img src="images/ai-sales.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="trending-up"></i></div>
+<h3 class="text-xl font-bold mb-2">Менеджер по продажам</h3>
+<p class="text-sm text-gray-400 mb-3">Обработка лидов</p>
+</div>
+
+
+<!-- 3 -->
+
+<div class="assistant-card">
+<img src="images/ai-booking.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="calendar"></i></div>
+<h3 class="text-xl font-bold mb-2">Запись на услуги</h3>
+<p class="text-sm text-gray-400 mb-3">Онлайн запись клиентов</p>
+</div>
+
+
+<!-- 4 -->
+
+<div class="assistant-card">
+<img src="images/ai-concierge.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="hotel"></i></div>
+<h3 class="text-xl font-bold mb-2">Бронирование</h3>
+<p class="text-sm text-gray-400 mb-3">Отели и рестораны</p>
+</div>
+
+
+<!-- 5 -->
+
+<div class="assistant-card">
+<img src="images/ai-support.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="headset"></i></div>
+<h3 class="text-xl font-bold mb-2">ИИ-Техподдержка</h3>
+<p class="text-sm text-gray-400 mb-3">Ответы клиентам</p>
+</div>
+
+
+<!-- 6 -->
+
+<div class="assistant-card">
+<img src="images/ai-content.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="pen-tool"></i></div>
+<h3 class="text-xl font-bold mb-2">Контент-мейкер</h3>
+<p class="text-sm text-gray-400 mb-3">Посты и статьи</p>
+</div>
+
+
+<!-- 7 -->
+
+<div class="assistant-card">
+<img src="images/ai-analyst.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="bar-chart"></i></div>
+<h3 class="text-xl font-bold mb-2">ИИ-Аналитик</h3>
+<p class="text-sm text-gray-400 mb-3">Анализ данных</p>
+</div>
+
+
+<!-- 8 -->
+
+<div class="assistant-card">
+<img src="images/ai-logistics.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="truck"></i></div>
+<h3 class="text-xl font-bold mb-2">ИИ-Логист</h3>
+<p class="text-sm text-gray-400 mb-3">Оптимизация доставки</p>
+</div>
+
+
+<!-- 9 -->
+
+<div class="assistant-card">
+<img src="images/ai-executive.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="crown"></i></div>
+<h3 class="text-xl font-bold mb-2">Ассистент руководителя</h3>
+<p class="text-sm text-gray-400 mb-3">Задачи и планирование</p>
+</div>
+
+
+<!-- 10 -->
+
+<div class="assistant-card">
+<img src="images/ai-hr.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="users"></i></div>
+<h3 class="text-xl font-bold mb-2">HR-рекрутер</h3>
+<p class="text-sm text-gray-400 mb-3">Поиск сотрудников</p>
+</div>
+
+
+<!-- 11 -->
+
+<div class="assistant-card">
+<img src="images/ai-accountant.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="calculator"></i></div>
+<h3 class="text-xl font-bold mb-2">ИИ-Бухгалтер</h3>
+<p class="text-sm text-gray-400 mb-3">Финансовый учет</p>
+</div>
+
+
+<!-- 12 -->
+
+<div class="assistant-card">
+<img src="images/ai-marketing.jpg" class="assistant-image">
+<div class="assistant-icon"><i data-lucide="megaphone"></i></div>
+<h3 class="text-xl font-bold mb-2">ИИ-Маркетолог</h3>
+<p class="text-sm text-gray-400 mb-3">Рекламные кампании</p>
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- CTA -->
+
+<section class="py-20 text-center">
+
+<p class="text-gray-400 mb-6 text-lg">
+Не нашли подходящего? Соберем индивидуальное решение под ваш бизнес
+</p>
+
+<a href="https://vk.com/neuro_media_nn"
+class="inline-block px-10 py-4 rounded-full font-bold text-white"
+style="background:linear-gradient(90deg,#00D9FF,#6B3FD6)">
+ЗАКАЗАТЬ РАЗРАБОТКУ
+</a>
+
+</section>
+
+
+<!-- COMPARISON -->
+
+<section class="py-24 px-6 container mx-auto">
+
+<div class="glass p-10 md:p-16 rounded-[3rem]">
+
+<h2 class="text-4xl font-black mb-12 text-center">
+
+ЧЕЛОВЕК <span style="color:red">VS</span>
+<span style="color:#00D9FF">ИИ</span>
+
+</h2>
+
+
+<table class="w-full text-left">
+
+<tr class="border-b border-white/10">
+<td class="p-4 font-bold">Скорость ответа</td>
+<td class="p-4 text-red-400">2–10 минут</td>
+<td class="p-4 text-green-400">0.5 секунды</td>
+</tr>
+
+<tr class="border-b border-white/10">
+<td class="p-4 font-bold">Стоимость</td>
+<td class="p-4 text-red-400">от 50 000 ₽</td>
+<td class="p-4 text-green-400">от 7 900 ₽</td>
+</tr>
+
+<tr class="border-b border-white/10">
+<td class="p-4 font-bold">Работа 24/7</td>
+<td class="p-4 text-red-400">Нет</td>
+<td class="p-4 text-green-400">Да</td>
+</tr>
+
+<tr>
+<td class="p-4 font-bold">Интеграция CRM</td>
+<td class="p-4 text-yellow-400">Ручной ввод</td>
+<td class="p-4 text-green-400">Автоматически</td>
+</tr>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer class="py-20 px-6 border-t border-white/5">
+
+<div class="container mx-auto grid md:grid-cols-3 gap-12 text-center md:text-left">
+
+<div>
+<span class="text-2xl font-black block">НЕЙРОМЕДИА</span>
+<p class="text-gray-500 text-sm">Цифровые сотрудники для бизнеса.</p>
+</div>
+
+<div>
+<h6 class="font-black text-xs uppercase mb-6 text-gray-400">Связь</h6>
+<p class="font-bold text-lg">+7 (909) 295-99-58</p>
+<p class="text-gray-500 text-sm">Дзержинск, Октябрьская 66</p>
+</div>
+
+<div>
+<h6 class="font-black text-xs uppercase mb-6 text-gray-400">Соцсети</h6>
+<a href="https://vk.com/neuro_media_nn" class="text-cyan-400 font-bold">
+VK.COM/NEURO_MEDIA_NN
+</a>
+</div>
+
+</div>
+
+</footer>
+
+
+<script>
+lucide.createIcons()
+</script>
+
+</body>
+</html>

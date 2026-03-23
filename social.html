@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ведение соцсетей под ключ | Нейромедиа</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #00D9FF;
+            --secondary: #6B3FD6;
+            --accent: #00D97F;
+            --dark: #0F1117;
+            --text: #E8E8F0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        html { width: 100%; overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* ФОНОВЫЕ ОРБЫ */
+        .animated-bg {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0f1117 100%);
+            overflow: hidden;
+        }
+        .glow-orb {
+            position: absolute; border-radius: 50%;
+            filter: blur(80px); opacity: 0.3;
+            animation: orbFloat 20s infinite alternate;
+        }
+        .orb-1 { width: 400px; height: 400px; background: var(--secondary); top: -10%; left: -10%; }
+        .orb-2 { width: 500px; height: 500px; background: var(--primary); bottom: -10%; right: -10%; animation-delay: -5s; }
+        .orb-3 { width: 300px; height: 300px; background: #A855F7; top: 40%; left: 50%; animation-delay: -10s; }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 100px) scale(1.1); }
+        }
+
+        .particle {
+            position: absolute; width: 2px; height: 2px;
+            background: white; border-radius: 50%; opacity: 0.3;
+            animation: particleRise 15s infinite linear;
+        }
+        @keyframes particleRise {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* GLASS */
+        .glass {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+        .glass:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        /* ТЕКСТЫ */
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), #A855F7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            line-height: 1.2;
+            padding: 4px 4px;
+        }
+        .highlight-text { color: var(--primary); font-weight: 700; }
+
+        /* SCROLL АНИМАЦИИ */
+        .animate-on-scroll {
+            opacity: 0; transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+
+        /* HERO */
+        .hero-title {
+            animation: slideInDown 0.8s ease-out;
+            word-break: break-word; line-height: 1.2;
+        }
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ПУЛЬС КНОПКИ */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0,217,255,0.3); }
+            50% { box-shadow: 0 0 40px rgba(0,217,255,0.6); }
+        }
+        .pulse-button { animation: pulse-glow 2s ease-in-out infinite; }
+
+        /* КНОПКИ */
+        .audit-btn {
+            background: white; color: black; font-weight: 800;
+            padding: 14px 32px; border-radius: 40px;
+            box-shadow: 0 10px 20px rgba(0,217,255,0.3);
+            transition: all 0.3s ease; cursor: pointer; border: none;
+            font-size: 14px;
+        }
+        .audit-btn:hover {
+            background: var(--primary); transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,217,255,0.5);
+        }
+
+        /* РАЗДЕЛИТЕЛЬ */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,217,255,0.3), transparent);
+            margin: 60px 0;
+        }
+
+        /* КАРТОЧКИ УСЛУГ */
+        .service-card {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative; overflow: hidden;
+        }
+        .service-card::before {
+            content: ''; position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,217,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        .service-card:hover::before { left: 100%; }
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary) !important;
+        }
+
+        /* ТАРИФЫ */
+        .tariff-card {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative; overflow: hidden;
+        }
+        .tariff-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,217,255,0.15);
+        }
+        .tariff-card.featured {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 40px rgba(0,217,255,0.2);
+        }
+        .tariff-card.featured::after {
+            content: 'ПОПУЛЯРНЫЙ';
+            position: absolute; top: 16px; right: -28px;
+            background: var(--primary); color: black;
+            font-size: 10px; font-weight: 900; padding: 4px 40px;
+            transform: rotate(45deg); letter-spacing: 1px;
+        }
+
+        /* ПРОЦЕСС */
+        .step-item {
+            position: relative;
+        }
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 24px; top: 60px;
+            width: 2px; height: calc(100% - 20px);
+            background: linear-gradient(180deg, var(--primary), transparent);
+        }
+        .step-number {
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 16px; color: black;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(0,217,255,0.4);
+        }
+
+        /* МОДАЛЬНОЕ ОКНО */
+        #briefModal {
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(12px);
+            z-index: 2000; align-items: center; justify-content: center;
+            padding: 16px; animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content {
+            background: #0f1117; border: 1px solid #2a2a3a;
+            border-radius: 32px; max-width: 600px; width: 100%;
+            max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .step-indicator { display: flex; justify-content: space-between; margin: 20px 0 10px; padding: 0 20px; }
+        .step-dot { width: 30px; height: 4px; background: #333; border-radius: 2px; flex: 1; margin: 0 4px; transition: all 0.3s ease; }
+        .step-dot.active { background: var(--primary); box-shadow: 0 0 10px var(--primary); }
+        .problem-card, .goal-card {
+            background: #111; border: 1px solid #222; border-radius: 12px;
+            padding: 14px; cursor: pointer; user-select: none;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .problem-card.selected, .goal-card.selected {
+            border: 1px solid var(--primary); background: rgba(0,217,255,0.1);
+            box-shadow: 0 0 15px rgba(0,217,255,0.2); transform: scale(1.02);
+        }
+        .brief-footer { display: flex; justify-content: space-between; padding: 24px 20px 20px; border-top: 1px solid #222; flex-wrap: wrap; gap: 10px; }
+        .brief-btn { padding: 12px 28px; border-radius: 40px; font-weight: 700; font-size: 14px; transition: all 0.2s; cursor: pointer; border: none; }
+        .brief-btn.primary { background: white; color: black; }
+        .brief-btn.primary:hover { background: var(--primary); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,217,255,0.2); }
+        .brief-btn.secondary { background: transparent; border: 1px solid #444; color: #ccc; }
+        .brief-btn.secondary:hover { border-color: white; color: white; }
+        input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 15px rgba(0,217,255,0.2) !important;
+            background-color: rgba(0,217,255,0.05) !important;
+        }
+
+        /* БУРГЕР-МЕНЮ */
+        .burger-menu { display: none; flex-direction: column; cursor: pointer; z-index: 1001; gap: 5px; }
+        .burger-menu span { width: 25px; height: 3px; background: white; transition: 0.4s; border-radius: 3px; }
+        .burger-menu.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+        .burger-menu.active span:nth-child(2) { opacity: 0; }
+        .burger-menu.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+        .mobile-nav {
+            position: fixed; top: 80px; left: -100%; width: 100%;
+            height: calc(100vh - 80px); background: rgba(15,17,23,0.98);
+            backdrop-filter: blur(10px); flex-direction: column; align-items: center;
+            padding-top: 40px; transition: left 0.4s ease; z-index: 1000;
+            gap: 20px; display: flex; overflow-y: auto;
+        }
+        .mobile-nav.active { left: 0; }
+        .mobile-nav a, .mobile-nav button { color: var(--text); text-decoration: none; font-size: 16px; padding: 15px 20px; width: 90%; text-align: center; border: none; cursor: pointer; transition: all 0.3s ease; border-radius: 8px; }
+        .mobile-nav button { background: white; color: black; font-weight: 800; }
+        @media (max-width: 1024px) { .desktop-menu { display: none !important; } .burger-menu { display: flex; } }
+        @media (min-width: 1025px) { .mobile-nav { display: none !important; } }
+
+        /* МОБИЛЬНАЯ АДАПТАЦИЯ */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 1.75rem; line-height: 1.15; padding: 0 1rem; }
+            .step-item:not(:last-child)::after { display: none; }
+        }
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Фон -->
+    <div class="animated-bg" id="particles">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Шапка -->
+    <div id="site-header"></div>
+
+    <!-- ==================== HERO ==================== -->
+    <header class="relative pt-32 md:pt-40 pb-16 md:pb-20 px-4 md:px-6 text-center min-h-screen flex flex-col justify-center w-full">
+        <div class="max-w-5xl mx-auto w-full">
+            <div class="inline-block px-3 md:px-4 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold mb-4 md:mb-6">
+                📱 SMM + ИИ
+            </div>
+            <h1 class="hero-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black mb-4 md:mb-6 leading-tight">
+                Соцсети, которые реально<br>
+                <span class="gradient-text italic">приводят клиентов</span>
+            </h1>
+            <p class="text-sm sm:text-base md:text-lg text-gray-300 max-w-3xl mx-auto mb-4 leading-relaxed">
+                А не просто лайки
+            </p>
+            <p class="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed">
+                Берём на себя всё ведение соцсетей под ключ:<br>
+                от стратегии до заявок — с помощью эксперта и технологий ИИ
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
+                <button onclick="openBriefModal()" class="audit-btn pulse-button">
+                    → Получить стратегию
+                </button>
+                <a href="#how-we-work" class="px-6 md:px-8 py-3 md:py-4 glass rounded-2xl font-bold text-xs md:text-sm hover:bg-white/10 transition text-center">
+                    Как мы работаем
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="section-divider"></div>
+
+    <!-- ==================== СОЦСЕТИ = КАНАЛ ПРОДАЖ ==================== -->
+    <section class="py-16 md:py-24 px-4 md:px-6 w-full">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 animate-on-scroll">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4">
+                    📈 СОЦСЕТИ = <span class="gradient-text">ВАШ НОВЫЙ ИСТОЧНИК КЛИЕНТОВ</span>
+                </h2>
+                <p class="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto">
+                    Если вас нет в соцсетях — для части клиентов вас просто не существует
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="animate-on-scroll">
+                    <div class="glass p-8 rounded-3xl mb-6">
+                        <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-6">
+                            Пока вы надеетесь на «сарафанку», ваши конкуренты уже:
+                        </p>
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-cyan-400 flex-shrink-0"></div>
+                                <span class="text-gray-300">Ежедневно общаются с клиентами</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-cyan-400 flex-shrink-0"></div>
+                                <span class="text-gray-300">Формируют доверие</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-cyan-400 flex-shrink-0"></div>
+                                <span class="text-gray-300">Получают заявки</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="glass p-6 rounded-2xl border-cyan-500/30 border">
+                        <p class="text-center font-black text-lg">
+                            👉 <span class="highlight-text">Соцсети — это не тренд, это канал продаж</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 animate-on-scroll" style="transition-delay: 0.2s">
+                    <div class="glass p-6 rounded-2xl text-center service-card">
+                        <div class="text-3xl font-black gradient-text mb-2">+300%</div>
+                        <div class="text-gray-400 text-sm">Рост охватов</div>
+                    </div>
+                    <div class="glass p-6 rounded-2xl text-center service-card">
+                        <div class="text-3xl font-black gradient-text mb-2">×3</div>
+                        <div class="text-gray-400 text-sm">Заявок в месяц</div>
+                    </div>
+                    <div class="glass p-6 rounded-2xl text-center service-card">
+                        <div class="text-3xl font-black gradient-text mb-2">30 дн</div>
+                        <div class="text-gray-400 text-sm">До первых результатов</div>
+                    </div>
+                    <div class="glass p-6 rounded-2xl text-center service-card">
+                        <div class="text-3xl font-black gradient-text mb-2">24/7</div>
+                        <div class="text-gray-400 text-sm">Система работает</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ==================== SMM + ИИ ==================== -->
+    <section class="py-16 md:py-24 px-4 md:px-6 w-full">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 animate-on-scroll">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4">
+                    🤖 SMM + ИИ = <span class="gradient-text">БЫСТРЫЙ РОСТ</span>
+                </h2>
+                <p class="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto">
+                    Мы не просто ведём соцсети — мы делаем их эффективными
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass p-7 rounded-3xl animate-on-scroll service-card">
+                    <div class="w-14 h-14 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-5 text-2xl">🎯</div>
+                    <h4 class="text-lg font-bold mb-3">Находим вашу аудиторию</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">ИИ анализирует поведение, интересы и паттерны вашей целевой аудитории точнее любого ручного анализа</p>
+                </div>
+                <div class="glass p-7 rounded-3xl animate-on-scroll service-card" style="transition-delay: 0.15s">
+                    <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mb-5 text-2xl">⚡</div>
+                    <h4 class="text-lg font-bold mb-3">Тестируем контент</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">Быстро проверяем что работает — заголовки, форматы, темы. Оставляем только то, что даёт результат</p>
+                </div>
+                <div class="glass p-7 rounded-3xl animate-on-scroll service-card" style="transition-delay: 0.3s">
+                    <div class="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center mb-5 text-2xl">📊</div>
+                    <h4 class="text-lg font-bold mb-3">Усиливаем победителей</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">Масштабируем контент и механики, которые уже приносят заявки. Рост без лишних экспериментов</p>
+                </div>
+            </div>
+
+            <div class="mt-10 glass p-6 rounded-2xl border-cyan-500/30 border text-center animate-on-scroll">
+                <p class="text-base md:text-lg font-bold">
+                    👉 В результате вы получаете <span class="highlight-text">заявки и продажи</span>, а не пустые охваты
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ==================== ВИТРИНА И ПРОДАЖИ ==================== -->
+    <section class="py-16 md:py-24 px-4 md:px-6 w-full">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 animate-on-scroll">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4">
+                    💰 СОЦСЕТИ — ЭТО ВАША <span class="gradient-text">ВИТРИНА И ПРОДАЖИ</span>
+                </h2>
+                <p class="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto">
+                    Полноценный отдел продаж, который работает каждый день
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="glass p-6 rounded-2xl animate-on-scroll service-card text-center">
+                    <div class="text-3xl mb-4">🧲</div>
+                    <h4 class="font-bold mb-2">Привлекают клиентов</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">Новые люди находят вас каждый день через рекомендации и поиск</p>
+                </div>
+                <div class="glass p-6 rounded-2xl animate-on-scroll service-card text-center" style="transition-delay: 0.1s">
+                    <div class="text-3xl mb-4">🤝</div>
+                    <h4 class="font-bold mb-2">Формируют доверие</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">Регулярный качественный контент превращает незнакомца в лояльного клиента</p>
+                </div>
+                <div class="glass p-6 rounded-2xl animate-on-scroll service-card text-center" style="transition-delay: 0.2s">
+                    <div class="text-3xl mb-4">🔥</div>
+                    <h4 class="font-bold mb-2">Прогревают к покупке</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">Контент отвечает на возражения и подталкивает к решению ещё до звонка</p>
+                </div>
+                <div class="glass p-6 rounded-2xl animate-on-scroll service-card text-center" style="transition-delay: 0.3s">
+                    <div class="text-3xl mb-4">🔄</div>
+                    <h4 class="font-bold mb-2">Возвращают снова</h4>
+                    <p class="text-gray-400 text-xs leading-relaxed">Напоминают о вас тем, кто уже покупал — без дополнительных затрат на рекламу</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ==================== ПОЧЕМУ НЕ РАБОТАЮТ ==================== -->
+    <section class="py-16 md:py-24 px-4 md:px-6 w-full">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 animate-on-scroll">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4">
+                    ⚠️ ПОЧЕМУ СОЦСЕТИ <span class="text-red-500">НЕ РАБОТАЮТ</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div class="animate-on-scroll">
+                    <p class="text-gray-300 text-lg mb-6 font-semibold">Знакомо?</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 glass p-5 rounded-2xl hover:border-red-500/40">
+                            <div class="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2.5"><polyline points="18 6 6 18"></polyline><polyline points="6 6 18 18"></polyline></svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold mb-1">Аккаунт ведётся нерегулярно</p>
+                                <p class="text-gray-400 text-sm">Пост раз в месяц — это не ведение, это видимость работы</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 glass p-5 rounded-2xl hover:border-red-500/40">
+                            <div class="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2.5"><polyline points="18 6 6 18"></polyline><polyline points="6 6 18 18"></polyline></svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold mb-1">Нет стратегии</p>
+                                <p class="text-gray-400 text-sm">Публикуете «что попало» без цели и без понимания аудитории</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 glass p-5 rounded-2xl hover:border-red-500/40">
+                            <div class="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2.5"><polyline points="18 6 6 18"></polyline><polyline points="6 6 18 18"></polyline></svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold mb-1">Контент «ни о чём»</p>
+                                <p class="text-gray-400 text-sm">Красивые картинки без смысла не продают</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 glass p-5 rounded-2xl hover:border-red-500/40">
+                            <div class="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2.5"><polyline points="18 6 6 18"></polyline><polyline points="6 6 18 18"></polyline></svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold mb-1">Нет заявок</p>
+                                <p class="text-gray-400 text-sm">Подписчики есть, а клиентов нет — значит система не работает</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animate-on-scroll" style="transition-delay: 0.2s">
+                    <div class="glass p-8 rounded-3xl border-red-500/20 border">
+                        <h4 class="text-xl font-black mb-6 text-red-400">👉 Для клиента это выглядит так:</h4>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3 p-4 rounded-xl" style="background: rgba(255,100,100,0.05)">
+                                <span class="text-2xl">😐</span>
+                                <div>
+                                    <p class="font-semibold text-sm">«Компания неактивна»</p>
+                                    <p class="text-gray-400 text-xs mt-1">Последний пост 2 месяца назад</p>
+                                </div>
+                                <svg class="ml-auto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </div>
+                            <div class="flex items-center gap-3 p-4 rounded-xl" style="background: rgba(255,100,100,0.05)">
+                                <span class="text-2xl">🤔</span>
+                                <div>
+                                    <p class="font-semibold text-sm">«Значит им нельзя доверять»</p>
+                                    <p class="text-gray-400 text-xs mt-1">Нет отзывов, нет активности</p>
+                                </div>
+                                <svg class="ml-auto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </div>
+                            <div class="flex items-center gap-3 p-4 rounded-xl" style="background: rgba(255,100,100,0.08)">
+                                <span class="text-2xl">❌</span>
+                                <div>
+                                    <p class="font-semibold text-sm text-red-400">Уходит к конкуренту</p>
+                                    <p class="text-gray-400 text-xs mt-1">У которого активный аккаунт</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ==================== КАК МЫ РАБОТАЕМ ==================== -->
+    <section id="how-we-work" class="py-16 md:py-24 px-4 md:px-6 w-full">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 animate-on-scroll">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4">
+                    ⚙️ КАК МЫ <span class="gradient-text">РАБОТАЕМ</span>
+                </h2>
+                <p class="text-gray-400 text-sm md:text-lg">Выстраиваем систему, а не просто постим контент</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="step-item flex items-start gap-5 animate-on-scroll">
+                    <div class="step-number">1</div>
+                    <div class="glass p-6 rounded-2xl flex-1 service-card">
+                        <h4 class="font-bold text-lg mb-2">Погружаемся в ваш бизнес</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Изучаем продукт, аудиторию, конкурентов. Без этого шага любой контент — выстрел в темноте</p>
+                    </div>
+                </div>
+                <div class="step-item flex items-start gap-5 animate-on-scroll" style="transition-delay: 0.1s">
+                    <div class="step-number">2</div>
+                    <div class="glass p-6 rounded-2xl flex-1 service-card">
+                        <h4 class="font-bold text-lg mb-2">Анализируем рынок и конкурентов</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Находим точки роста и незанятые ниши в контенте. Делаем то, что работает у конкурентов — лучше</p>
+                    </div>
+                </div>
+                <div class="step-item flex items-start gap-5 animate-on-scroll" style="transition-delay: 0.2s">
+                    <div class="step-number">3</div>
+                    <div class="glass p-6 rounded-2xl flex-1 service-card">
+                        <h4 class="font-bold text-lg mb-2">Создаём стратегию</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Чёткий план: что публикуем, когда, в каком формате и с какой целью — заявки, охват, доверие</p>
+                    </div>
+                </div>
+                <div class="step-item flex items-start gap-5 animate-on-scroll" style="transition-delay: 0.3s">
+                    <div class="step-number">4</div>
+                    <div class="glass p-6 rounded-2xl flex-1 service-card">
+                        <h4 class="font-bold text-lg mb-2">Готовим контент-план</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Месячный план с темами, форматами и датами. Вы всегда знаете что будет опубликовано</p>
+                    </div>
+                </div>
+                <div class="step-item flex items-start gap-5 animate-on-scroll" style="transition-delay: 0.4s">
+                    <div class="step-number">5</div>
+                    <div class="glass p-6 rounded-2xl flex-1 service-card">
+                        <h4 class="font-bold text-lg mb-2">Публикуем и тестируем</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">Запускаем контент, следим за показателями, корректируем подход на основе данных</p>
+                    </div>
+                </div>
+                <div class="step-item flex items-start gap-5 animate-on-scroll" style="transition-delay: 0.5s">
+                    <div class="step-number">6</div>
+                    <div class="glass p-6 rounded-2xl flex-1 service-card">
+                        <h4 class="font-bold text-lg mb-2">Автоматизируем процессы</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed">ИИ берёт на себя рутину — отложенные публикации, базовые ответы, аналитика</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-5 animate-on-scroll" style="transition-delay: 0.6s">
+                    <div class="step-number" style="background: linear-gradient(135deg, var(--accent), #00a060)">7</div>
+                    <div class="p-6 rounded-2xl flex-1 border border-cyan-500/30" style="background: rgba(0,217,255,0.05)">
+                        <h4 class="font-bold text-lg mb-2 highlight-text">Приводим заявки</h4>
+                        <p class="text-gray-300 text-sm leading-relaxed">Система настроена — начинается стабильный поток потенциальных клиентов из соцсетей</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ==================== РЕЗУЛЬТАТ ==================== -->
+    <section class="py-16 md:py-24 px-4 md:px-6 w-full">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 animate-on-scroll">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4">
+                    🚀 РЕЗУЛЬТАТ <span class="gradient-text">ДЛЯ ВАС</span>
+                </h2>
+                <p class="text-gray-400 text-sm md:text-lg">Соцсети начинают работать на бизнес, а не «для галочки»</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div class="glass p-6 rounded-2xl animate-on-scroll service-card">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-cyan-500/20 rounded-xl flex items-center justify-center text-lg">📥</div>
+                        <h4 class="font-bold">Стабильный поток заявок</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Заявки приходят регулярно, а не «иногда» — система работает постоянно</p>
+                </div>
+                <div class="glass p-6 rounded-2xl animate-on-scroll service-card" style="transition-delay: 0.1s">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center text-lg">💬</div>
+                        <h4 class="font-bold">Живой активный аккаунт</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Регулярный контент, вовлечение, комментарии — аккаунт выглядит профессионально</p>
+                </div>
+                <div class="glass p-6 rounded-2xl animate-on-scroll service-card" style="transition-delay: 0.2s">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center text-lg">📈</div>
+                        <h4 class="font-bold">Рост узнаваемости</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Больше людей знают о вас — охваты растут месяц за месяцем</p>
+                </div>
+                <div class="glass p-6 rounded-2xl animate-on-scroll service-card" style="transition-delay: 0.3s">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-yellow-500/20 rounded-xl flex items-center justify-center text-lg">⭐</div>
+                        <h4 class="font-bold">Доверие к бренду</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Клиенты приходят уже «тёплыми» — видели ваш контент и готовы покупать</p>
+                </div>
+                <div class="glass p-6 rounded-2xl animate-on-scroll service-card" style="transition-delay: 0.4s">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-cyan-500/20 rounded-xl flex items-center justify-center text-lg">⚙️</div>
+                        <h4 class="font-bold">Системный маркетинг</h4>
+                    </div>
+                    <p class="text-gray-400 text-sm">Не хаотичные действия, а выстроенная машина для привлечения клиентов</p>
+                </div>
+                <div class="p-6 rounded-2xl animate-on-scroll border border-cyan-500/40 flex items-center justify-center" style="transition-delay: 0.5s; background: rgba(0,217,255,0.05)">
+                    <p class="text-center font-black text-lg highlight-text leading-relaxed">
+                        Соцсети работают<br>на ваш бизнес
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ==================== ТАРИФЫ ==================== -->
+    <section id="tariffs" class="py-16 md:py-24 px-4 md:px-6 w-full">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 animate-on-scroll">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-4">
+                    💼 <span class="gradient-text">ТАРИФЫ</span>
+                </h2>
+                <p class="text-gray-400 text-sm md:text-lg">Выберите подходящий формат работы</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+
+                <!-- Старт -->
+                <div class="tariff-card glass p-8 rounded-3xl animate-on-scroll">
+                    <div class="mb-6">
+                        <div class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style="background: rgba(0,217,255,0.1); color: var(--primary); border: 1px solid rgba(0,217,255,0.2)">
+                            🔹 СТАРТ
+                        </div>
+                        <div class="text-4xl font-black mb-1">35 000 ₽</div>
+                        <div class="text-gray-400 text-sm">в месяц</div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00D9FF" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            3 соцсети
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00D9FF" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            3 поста в неделю
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00D9FF" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Анализ конкурентов
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00D9FF" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Привлечение заявок
+                        </li>
+                    </ul>
+                    <p class="text-gray-400 text-xs mb-6">Подходит для запуска и первых результатов</p>
+                    <button onclick="openBriefModal()" class="w-full py-3 rounded-2xl font-bold text-sm glass hover:bg-white/10 transition">
+                        Выбрать тариф →
+                    </button>
+                </div>
+
+                <!-- Бизнес (популярный) -->
+                <div class="tariff-card featured glass p-8 rounded-3xl animate-on-scroll" style="transition-delay: 0.15s; overflow: hidden;">
+                    <div class="mb-6">
+                        <div class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style="background: rgba(0,217,255,0.15); color: var(--primary); border: 1px solid rgba(0,217,255,0.4)">
+                            🔹 БИЗНЕС
+                        </div>
+                        <div class="text-4xl font-black gradient-text mb-1">45 000 ₽</div>
+                        <div class="text-gray-400 text-sm">в месяц</div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00D9FF" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            3 соцсети
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00D9FF" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Посты + сторис
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00D9FF" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Короткие видео
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00D9FF" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Работа с вовлечением
+                        </li>
+                    </ul>
+                    <p class="text-gray-400 text-xs mb-6">Для стабильного роста и усиления продаж</p>
+                    <button onclick="openBriefModal()" class="w-full py-3 rounded-2xl font-bold text-sm transition pulse-button" style="background: white; color: black;">
+                        Выбрать тариф →
+                    </button>
+                </div>
+
+                <!-- Премиум -->
+                <div class="tariff-card glass p-8 rounded-3xl animate-on-scroll" style="transition-delay: 0.3s">
+                    <div class="mb-6">
+                        <div class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-4" style="background: rgba(168,85,247,0.15); color: #A855F7; border: 1px solid rgba(168,85,247,0.3)">
+                            🔹 ПРЕМИУМ
+                        </div>
+                        <div class="text-4xl font-black mb-1">57 000 ₽</div>
+                        <div class="text-gray-400 text-sm">в месяц</div>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            5 соцсетей
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Посты, сторис, видео
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Выезд и реальный контент
+                        </li>
+                        <li class="flex items-center gap-3 text-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Максимальный охват
+                        </li>
+                    </ul>
+                    <p class="text-gray-400 text-xs mb-6">Максимум трафика и заявок</p>
+                    <button onclick="openBriefModal()" class="w-full py-3 rounded-2xl font-bold text-sm glass hover:bg-white/10 transition">
+                        Выбрать тариф →
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ==================== ФИНАЛЬНЫЙ CTA ==================== -->
+    <section class="py-20 md:py-32 px-4 md:px-6 w-full text-center">
+        <div class="max-w-3xl mx-auto animate-on-scroll">
+            <div class="inline-block px-4 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold mb-6">
+                🎯 НАЧНИТЕ СЕГОДНЯ
+            </div>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black mb-6 leading-tight">
+                Начните получать клиентов<br>
+                <span class="gradient-text">из соцсетей уже сейчас</span>
+            </h2>
+            <p class="text-gray-400 text-sm md:text-lg mb-10 leading-relaxed">
+                Не откладывайте —<br>
+                пока вы думаете, конкуренты уже забирают ваших клиентов
+            </p>
+            <button onclick="openBriefModal()" class="audit-btn pulse-button text-base px-10 py-5">
+                → Оставить заявку
+            </button>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <div id="site-footer"></div>
+
+    <!-- Скрипты -->
+    <script src="js/components.js"></script>
+    <script src="js/audit-form.js"></script>
+
+    <script>
+        lucide.createIcons();
+
+        // Частицы
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 25; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            p.style.animationDelay = (Math.random() * 5) + 's';
+            particlesContainer.appendChild(p);
+        }
+
+        // Scroll анимации
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        // Бургер-меню
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        if (burgerMenu) {
+            burgerMenu.addEventListener('click', () => {
+                burgerMenu.classList.toggle('active');
+                mobileNav.classList.toggle('active');
+            });
+            document.querySelectorAll('.mobile-nav a, .mobile-nav button').forEach(link => {
+                link.addEventListener('click', () => {
+                    burgerMenu.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                });
+            });
+        }
+    </script>
+</body>
+</html>

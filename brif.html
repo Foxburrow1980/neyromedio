@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>AI аудит бизнеса</title>
+
+<link rel="stylesheet" href="css/main.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+background:#0f1117;
+font-family:Inter;
+color:white;
+}
+
+.glass{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(14px);
+}
+
+.gradient{
+background:linear-gradient(90deg,#00D9FF,#A855F7);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+</style>
+
+</head>
+
+<body class="p-8">
+
+<div class="max-w-7xl mx-auto">
+
+<!-- HEADER -->
+
+<h1 class="text-5xl font-black mb-6">
+
+AI аудит компании  
+<span id="company" class="gradient"></span>
+
+</h1>
+
+<p class="text-gray-400 mb-12">
+
+Сфера: <span id="industry"></span>  
+Регион: <span id="city"></span>
+
+</p>
+
+
+<!-- SCORE -->
+
+<div class="glass p-10 rounded-3xl text-center mb-16">
+
+<div class="text-gray-400 mb-3">
+
+Индекс цифровизации бизнеса
+
+</div>
+
+<div id="score" class="text-7xl font-black text-cyan-400">
+
+--
+
+</div>
+
+</div>
+
+
+<!-- METRICS -->
+
+<div class="grid md:grid-cols-5 gap-4 mb-16">
+
+<div class="glass p-6 text-center rounded-xl">
+Сайт
+<div id="metric_site" class="text-3xl font-bold mt-2"></div>
+</div>
+
+<div class="glass p-6 text-center rounded-xl">
+Соцсети
+<div id="metric_social" class="text-3xl font-bold mt-2"></div>
+</div>
+
+<div class="glass p-6 text-center rounded-xl">
+Автоматизация
+<div id="metric_automation" class="text-3xl font-bold mt-2"></div>
+</div>
+
+<div class="glass p-6 text-center rounded-xl">
+CRM
+<div id="metric_crm" class="text-3xl font-bold mt-2"></div>
+</div>
+
+<div class="glass p-6 text-center rounded-xl">
+Маркетинг
+<div id="metric_marketing" class="text-3xl font-bold mt-2"></div>
+</div>
+
+</div>
+
+
+<!-- RADAR -->
+
+<div class="glass p-10 rounded-3xl mb-16">
+
+<h2 class="text-2xl mb-6">Цифровой профиль бизнеса</h2>
+
+<canvas id="radarChart"></canvas>
+
+</div>
+
+
+<!-- PROBLEMS -->
+
+<div class="glass p-10 rounded-3xl mb-16">
+
+<h2 class="text-2xl text-red-400 mb-6">
+
+Основные проблемы
+
+</h2>
+
+<ul id="problems" class="space-y-3"></ul>
+
+</div>
+
+
+<!-- OPPORTUNITIES -->
+
+<div class="glass p-10 rounded-3xl mb-16">
+
+<h2 class="text-2xl text-cyan-400 mb-6">
+
+Возможности роста
+
+</h2>
+
+<ul id="opportunities" class="space-y-3"></ul>
+
+</div>
+
+
+<!-- COMPETITORS -->
+
+<div class="glass p-10 rounded-3xl mb-16">
+
+<h2 class="text-2xl mb-6">
+
+Сравнение с конкурентами
+
+</h2>
+
+<table class="w-full text-left">
+
+<tr class="text-gray-400">
+<th>Показатель</th>
+<th>Ваша компания</th>
+<th>Топ рынка</th>
+</tr>
+
+<tr>
+<td>Соцсети</td>
+<td id="your_social"></td>
+<td id="competitor_social"></td>
+</tr>
+
+<tr>
+<td>Автоматизация</td>
+<td id="your_auto"></td>
+<td id="competitor_auto"></td>
+</tr>
+
+<tr>
+<td>Скорость ответа</td>
+<td id="your_response"></td>
+<td id="competitor_response"></td>
+</tr>
+
+</table>
+
+</div>
+
+
+<!-- LOST AUDIENCE -->
+
+<div class="glass p-10 rounded-3xl mb-16">
+
+<h2 class="text-2xl text-orange-400 mb-6">
+
+Упущенная аудитория
+
+</h2>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<div class="text-center">
+<div id="lost_vk" class="text-4xl font-bold"></div>
+VK потенциальных клиентов
+</div>
+
+<div class="text-center">
+<div id="lost_tg" class="text-4xl font-bold"></div>
+Telegram клиентов
+</div>
+
+<div class="text-center">
+<div id="lost_search" class="text-4xl font-bold"></div>
+Поиск Яндекс
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ROI -->
+
+<div class="glass p-12 rounded-3xl mb-16">
+
+<h2 class="text-2xl mb-6">
+
+Экономический эффект автоматизации
+
+</h2>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<div class="text-center">
+<div id="roi_leads" class="text-4xl text-green-400"></div>
+рост заявок
+</div>
+
+<div class="text-center">
+<div id="roi_profit" class="text-4xl text-cyan-400"></div>
+доп прибыль
+</div>
+
+<div class="text-center">
+<div id="roi_time" class="text-4xl text-purple-400"></div>
+экономия времени
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FORECAST -->
+
+<div class="glass p-10 rounded-3xl mb-16">
+
+<h2 class="text-2xl mb-6">
+
+Прогноз после автоматизации
+
+</h2>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<div class="text-center">
+<div id="forecast_leads" class="text-4xl font-bold text-green-400"></div>
+рост заявок
+</div>
+
+<div class="text-center">
+<div id="forecast_profit" class="text-4xl font-bold text-cyan-400"></div>
+рост прибыли
+</div>
+
+<div class="text-center">
+<div id="forecast_time" class="text-4xl font-bold text-purple-400"></div>
+экономия времени
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ROADMAP -->
+
+<div class="glass p-10 rounded-3xl mb-16">
+
+<h2 class="text-2xl mb-6">
+
+План внедрения
+
+</h2>
+
+<ol id="roadmap" class="space-y-3 list-decimal pl-6"></ol>
+
+</div>
+
+
+<!-- CTA -->
+
+<div class="glass p-12 rounded-3xl text-center">
+
+<h2 class="text-3xl font-bold mb-4">
+
+Готовы внедрить автоматизацию?
+
+</h2>
+
+<p class="text-gray-400 mb-8">
+
+Мы можем внедрить систему автоматизации  
+за 7-14 дней.
+
+</p>
+
+<a href="https://t.me/yourtelegram"
+
+class="bg-cyan-500 px-10 py-4 rounded-xl text-black font-bold">
+
+Получить внедрение
+
+</a>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+const params = new URLSearchParams(location.search)
+const id = params.get("id")
+
+fetch("/data/"+id+".json")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+document.getElementById("company").textContent=data.company
+document.getElementById("industry").textContent=data.industry
+document.getElementById("city").textContent=data.city
+
+document.getElementById("score").textContent=data.score
+
+document.getElementById("metric_site").textContent=data.metrics.site
+document.getElementById("metric_social").textContent=data.metrics.social
+document.getElementById("metric_automation").textContent=data.metrics.automation
+document.getElementById("metric_crm").textContent=data.metrics.crm
+document.getElementById("metric_marketing").textContent=data.metrics.marketing
+
+data.problems.forEach(p=>{
+const li=document.createElement("li")
+li.textContent=p
+document.getElementById("problems").appendChild(li)
+})
+
+data.opportunities.forEach(p=>{
+const li=document.createElement("li")
+li.textContent=p
+document.getElementById("opportunities").appendChild(li)
+})
+
+data.roadmap.forEach(p=>{
+const li=document.createElement("li")
+li.textContent=p
+document.getElementById("roadmap").appendChild(li)
+})
+
+document.getElementById("lost_vk").textContent=data.lost_audience.vk
+document.getElementById("lost_tg").textContent=data.lost_audience.telegram
+document.getElementById("lost_search").textContent=data.lost_audience.search
+
+document.getElementById("roi_leads").textContent=data.roi.leads
+document.getElementById("roi_profit").textContent=data.roi.profit
+document.getElementById("roi_time").textContent=data.roi.time
+
+document.getElementById("forecast_leads").textContent=data.forecast.leads
+document.getElementById("forecast_profit").textContent=data.forecast.profit
+document.getElementById("forecast_time").textContent=data.forecast.time_saved
+
+document.getElementById("your_social").textContent=data.metrics.social
+document.getElementById("your_auto").textContent=data.metrics.automation
+document.getElementById("your_response").textContent=data.response_time
+
+document.getElementById("competitor_social").textContent=data.competitors.social
+document.getElementById("competitor_auto").textContent=data.competitors.automation
+document.getElementById("competitor_response").textContent=data.competitors.response_time
+
+
+new Chart(document.getElementById("radarChart"),{
+
+type:"radar",
+
+data:{
+labels:["Сайт","Соцсети","Автоматизация","CRM","Маркетинг"],
+
+datasets:[{
+data:[
+data.metrics.site,
+data.metrics.social,
+data.metrics.automation,
+data.metrics.crm,
+data.metrics.marketing
+],
+borderColor:"#00D9FF"
+}]
+}
+
+})
+
+})
+
+</script>
+
+<!-- Подвал вставляется через js/components.js -->
+<div id="site-footer"></div>
+
+<script src="js/components.js"></script>
+<script src="js/audit-form.js"></script>
+</body>
+</html>

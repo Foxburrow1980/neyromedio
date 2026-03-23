@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Готовые решения по нишам | Нейромедиа</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Шрифт уже подключён в css/main.css */
+
+        :root {
+            --primary: #00D9FF;
+            --secondary: #6B3FD6;
+            --accent: #00D97F;
+            --dark: #0F1117;
+            --dark-gray: #1A1A2E;
+            --light: #FFFFFF;
+            --text: #E8E8F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        /* ============ ANIMATED BACKGROUND ============ */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: linear-gradient(
+                45deg,
+                rgba(15, 17, 23, 1) 0%,
+                rgba(107, 63, 214, 0.15) 25%,
+                rgba(0, 217, 255, 0.1) 50%,
+                rgba(107, 63, 214, 0.15) 75%,
+                rgba(15, 17, 23, 1) 100%
+            );
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            top: -25%;
+            left: -25%;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .particles-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 10px rgba(0, 217, 255, 0.8);
+            animation: floatParticles linear infinite;
+        }
+
+        .particle:nth-child(1) { width: 6px; height: 6px; top: 10%; left: 10%; animation-duration: 20s; }
+        .particle:nth-child(2) { width: 4px; height: 4px; top: 20%; left: 80%; animation-duration: 25s; animation-delay: 2s; background: var(--secondary); }
+        .particle:nth-child(3) { width: 5px; height: 5px; top: 50%; left: 5%; animation-duration: 30s; animation-delay: 4s; background: var(--accent); }
+        .particle:nth-child(4) { width: 3px; height: 3px; top: 30%; left: 50%; animation-duration: 22s; animation-delay: 1s; }
+        .particle:nth-child(5) { width: 7px; height: 7px; top: 70%; left: 90%; animation-duration: 28s; animation-delay: 3s; background: var(--secondary); }
+
+        @keyframes floatParticles {
+            0% { transform: translateY(100vh) translateX(0) scale(1); opacity: 0; }
+            5% { opacity: 0.8; }
+            95% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) translateX(100px) scale(0); opacity: 0; }
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: orbGlow 8s ease-in-out infinite;
+        }
+
+        .orb-1 { width: 400px; height: 400px; background: rgba(107, 63, 214, 0.8); top: -100px; left: -100px; }
+        .orb-2 { width: 300px; height: 300px; background: rgba(0, 217, 255, 0.6); bottom: -50px; right: -100px; animation-delay: 2s; }
+        .orb-3 { width: 350px; height: 350px; background: rgba(107, 63, 214, 0.5); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 4s; }
+
+        @keyframes orbGlow {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(30px, -30px) scale(1.1); opacity: 0.5; }
+        }
+
+        /* ============ CONTAINER ============ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============ BUTTONS ============ */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #0099FF);
+            color: var(--dark);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 217, 255, 0.4);
+        }
+
+        .btn-primary.btn-large {
+            padding: 16px 36px;
+            font-size: 18px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* ============ NAVIGATION ============ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(107, 63, 214, 0.2);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .burger-menu span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.4s;
+            border-radius: 3px;
+        }
+
+        .burger-menu.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+        .burger-menu.active span:nth-child(2) { opacity: 0; }
+        .burger-menu.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: -100%;
+            width: 100%;
+            height: calc(100vh - 80px);
+            background: rgba(15, 17, 23, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+            transition: left 0.4s ease;
+            z-index: 1000;
+            gap: 20px;
+        }
+
+        .mobile-nav.active { left: 0; }
+        .mobile-nav a { color: var(--text); text-decoration: none; font-size: 18px; padding: 15px 20px; width: 80%; text-align: center; }
+
+        /* ============ HERO ============ */
+        .hero {
+            margin-top: 80px;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 100px;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* ============ GLASS ============ */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* ============ SOLUTIONS SECTION ============ */
+        .solutions-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, var(--light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, rgba(107, 63, 214, 0.15), rgba(0, 217, 255, 0.05));
+            border: 1px solid rgba(107, 63, 214, 0.3);
+            border-radius: 16px;
+            padding: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .category-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 60px rgba(107, 63, 214, 0.3);
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            padding: 24px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .category-icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .category-name {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .category-description {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .category-content {
+            padding: 24px;
+        }
+
+        .solution-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .solution-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .solution-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--light);
+            margin-bottom: 12px;
+        }
+
+        .solution-description {
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .solution-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .stat-box {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 10px;
+            color: var(--text);
+            margin-top: 2px;
+        }
+
+        .solution-price {
+            background: rgba(0, 217, 127, 0.1);
+            border: 1px solid rgba(0, 217, 127, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .price-amount {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .price-period {
+            font-size: 11px;
+            color: var(--text);
+            margin-top: 2px;
+        }
+
+        .solution-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), #0099FF);
+            color: var(--dark);
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+        }
+
+        .solution-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        /* ============ COMPARISON TABLE ============ */
+        .comparison-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(107, 63, 214, 0.1), rgba(0, 217, 255, 0.05));
+            border-top: 1px solid rgba(107, 63, 214, 0.2);
+        }
+
+        .comparison-table {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(107, 63, 214, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, rgba(107, 63, 214, 0.3), rgba(0, 217, 255, 0.2));
+            padding: 20px;
+            text-align: left;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(107, 63, 214, 0.2);
+        }
+
+        .comparison-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(107, 63, 214, 0.1);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        .positive {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .negative {
+            color: #FF6B6B;
+            font-weight: 600;
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: var(--dark-gray);
+            border-top: 1px solid rgba(107, 63, 214, 0.2);
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: var(--light);
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .footer-section a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(107, 63, 214, 0.2);
+            padding-top: 20px;
+            text-align: center;
+            color: var(--text);
+            font-size: 12px;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 16px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .burger-menu {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 40px 0;
+                margin-top: 120px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .solution-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Background -->
+    <div class="animated-bg" id="particles">
+        <div class="bg-gradient"></div>
+        <div class="particles-container">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <!-- Шапка вставляется через js/components.js -->
+    <div id="site-header"></div>
+
+    <!-- Hero -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-badge animate-fade-in-up">ГОТОВЫЕ РЕШЕНИЯ</div>
+            <h1 class="animate-fade-in-up">Готовые кейсы <span style="color: #00D9FF">по нишам</span></h1>
+            <p class="hero-subtitle animate-fade-in-up" style="animation-delay: 0.1s">Выберите решение для вашей сферы и получите готовую систему автоматизации. Не нужно собирать с нуля — всё уже протестировано на реальных клиентах</p>
+        </div>
+    </header>
+
+    <!-- Solutions -->
+    <section class="solutions-section">
+        <div class="container">
+            <h2 class="section-title">Готовые решения по отраслям</h2>
+
+            <div class="category-grid">
+                <!-- МЕДИЦИНА -->
+                <div class="category-card animate-on-scroll">
+                    <div class="category-header">
+                        <div class="category-icon">🏥</div>
+                        <div class="category-name">МЕДИЦИНА</div>
+                        <div class="category-description">Клиники, стоматологии, салоны здоровья</div>
+                    </div>
+                    <div class="category-content">
+                        <div class="solution-item">
+                            <div class="solution-title">📋 ИИ-Секретарь для приёма</div>
+                            <div class="solution-description">Автоматический приём звонков, запись на приём, отправка напоминаний в Telegram</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">+240%</span>
+                                    <span class="stat-label">Записей</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">2 недели</span>
+                                    <span class="stat-label">Окупаемость</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">49 000 ₽</div>
+                                <div class="price-period">один раз</div>
+                            </div>
+                            <button class="solution-btn">Активировать решение</button>
+                        </div>
+
+                        <div class="solution-item">
+                            <div class="solution-title">📞 Напоминания о приёмах</div>
+                            <div class="solution-description">Автоматические SMS/Telegram напоминания за день до приёма</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">-35%</span>
+                                    <span class="stat-label">Пропусков</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">1 неделя</span>
+                                    <span class="stat-label">Окупаемость</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">15 000 ₽</div>
+                                <div class="price-period">один раз</div>
+                            </div>
+                            <button class="solution-btn">Добавить модуль</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- КРАСОТА -->
+                <div class="category-card animate-on-scroll" style="animation-delay: 0.1s">
+                    <div class="category-header" style="background: linear-gradient(135deg, #FF6B9D, #FFC371);">
+                        <div class="category-icon">💇</div>
+                        <div class="category-name">КРАСОТА</div>
+                        <div class="category-description">Салоны красоты, барберы, spa</div>
+                    </div>
+                    <div class="category-content">
+                        <div class="solution-item">
+                            <div class="solution-title">📅 Автозапись в WhatsApp</div>
+                            <div class="solution-description">Клиент пишет в WhatsApp → бот предлагает свободные слоты → автоматически добавляет в календарь</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">+180%</span>
+                                    <span class="stat-label">Клиентов</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">10 дней</span>
+                                    <span class="stat-label">Окупаемость</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">35 000 ₽</div>
+                                <div class="price-period">один раз</div>
+                            </div>
+                            <button class="solution-btn">Активировать решение</button>
+                        </div>
+
+                        <div class="solution-item">
+                            <div class="solution-title">💰 Отправка счетов</div>
+                            <div class="solution-description">Автоматическая отправка счетов и выписок клиентам</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">+25%</span>
+                                    <span class="stat-label">Повторных визитов</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">Сразу</span>
+                                    <span class="stat-label">Включено</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">Входит в пакет</div>
+                                <div class="price-period">без доп. платы</div>
+                            </div>
+                            <button class="solution-btn">Добавить бесплатно</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ЕДА & НАПИТКИ -->
+                <div class="category-card animate-on-scroll" style="animation-delay: 0.2s">
+                    <div class="category-header" style="background: linear-gradient(135deg, #FF8C42, #FF6B35);">
+                        <div class="category-icon">🍕</div>
+                        <div class="category-name">ЕДА & ДОСТАВКА</div>
+                        <div class="category-description">Кафе, рестораны, пищевые цеха</div>
+                    </div>
+                    <div class="category-content">
+                        <div class="solution-item">
+                            <div class="solution-title">🤖 Принятие заказов 24/7</div>
+                            <div class="solution-description">Бот в Telegram принимает заказы ночью, утром менеджер видит готовый список</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">+150%</span>
+                                    <span class="stat-label">Заказов</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">5 дней</span>
+                                    <span class="stat-label">Окупаемость</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">39 000 ₽</div>
+                                <div class="price-period">один раз</div>
+                            </div>
+                            <button class="solution-btn">Активировать решение</button>
+                        </div>
+
+                        <div class="solution-item">
+                            <div class="solution-title">📊 Уведомление о готовности</div>
+                            <div class="solution-description">Клиент получает уведомление когда блюдо готово</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">+40%</span>
+                                    <span class="stat-label">Довольства</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">Встроено</span>
+                                    <span class="stat-label">В системе</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">Включено</div>
+                                <div class="price-period">в стоимости</div>
+                            </div>
+                            <button class="solution-btn">Добавить бесплатно</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ОБРАЗОВАНИЕ -->
+                <div class="category-card animate-on-scroll" style="animation-delay: 0.3s">
+                    <div class="category-header" style="background: linear-gradient(135deg, #667EEA, #764BA2);">
+                        <div class="category-icon">📚</div>
+                        <div class="category-name">ОБРАЗОВАНИЕ</div>
+                        <div class="category-description">Школы, курсы, тренинги, репетиторы</div>
+                    </div>
+                    <div class="category-content">
+                        <div class="solution-item">
+                            <div class="solution-title">📧 Напоминание о уроках</div>
+                            <div class="solution-description">Автоматические напоминания ученикам за 15 минут до начала урока</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">-60%</span>
+                                    <span class="stat-label">Пропусков</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">3 дня</span>
+                                    <span class="stat-label">Окупаемость</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">19 000 ₽</div>
+                                <div class="price-period">один раз</div>
+                            </div>
+                            <button class="solution-btn">Активировать решение</button>
+                        </div>
+
+                        <div class="solution-item">
+                            <div class="solution-title">🎓 Отправка домашних заданий</div>
+                            <div class="solution-description">Ученики получают ДЗ через бот, отправляют решения, получают оценки</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">+85%</span>
+                                    <span class="stat-label">Выполнения ДЗ</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">1 неделя</span>
+                                    <span class="stat-label">Окупаемость</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">29 000 ₽</div>
+                                <div class="price-period">один раз</div>
+                            </div>
+                            <button class="solution-btn">Активировать решение</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ФИТНЕС -->
+                <div class="category-card animate-on-scroll" style="animation-delay: 0.4s">
+                    <div class="category-header" style="background: linear-gradient(135deg, #FA709A, #FEE140);">
+                        <div class="category-icon">💪</div>
+                        <div class="category-name">ФИТНЕС & СПОРТ</div>
+                        <div class="category-description">Спортзалы, йога, теннис, бассейны</div>
+                    </div>
+                    <div class="category-content">
+                        <div class="solution-item">
+                            <div class="solution-title">📅 Бронирование тренировок</div>
+                            <div class="solution-description">Члены клуба бронируют тренировки через Telegram, система автоматически управляет местами</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">+120%</span>
+                                    <span class="stat-label">Посещений</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">2 недели</span>
+                                    <span class="stat-label">Окупаемость</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">44 000 ₽</div>
+                                <div class="price-period">один раз</div>
+                            </div>
+                            <button class="solution-btn">Активировать решение</button>
+                        </div>
+
+                        <div class="solution-item">
+                            <div class="solution-title">🏆 Напоминание о платежах</div>
+                            <div class="solution-description">Автоматические напоминания о продлении абонемента</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">+45%</span>
+                                    <span class="stat-label">Пролонгаций</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">Встроено</span>
+                                    <span class="stat-label">В системе</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">Включено</div>
+                                <div class="price-period">в стоимости</div>
+                            </div>
+                            <button class="solution-btn">Добавить бесплатно</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IT УСЛУГИ -->
+                <div class="category-card animate-on-scroll" style="animation-delay: 0.5s">
+                    <div class="category-header" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                        <div class="category-icon">💻</div>
+                        <div class="category-name">IT & ВЕБРОЗРАБОТКА</div>
+                        <div class="category-description">Агентства, фрилансеры, разработчики</div>
+                    </div>
+                    <div class="category-content">
+                        <div class="solution-item">
+                            <div class="solution-title">📋 Квалификация проектов</div>
+                            <div class="solution-description">Бот спрашивает детали проекта и автоматически оценивает сложность и стоимость</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">+95%</span>
+                                    <span class="stat-label">Времени</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">1 неделя</span>
+                                    <span class="stat-label">Окупаемость</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">54 000 ₽</div>
+                                <div class="price-period">один раз</div>
+                            </div>
+                            <button class="solution-btn">Активировать решение</button>
+                        </div>
+
+                        <div class="solution-item">
+                            <div class="solution-title">🔔 Уведомления о статусе</div>
+                            <div class="solution-description">Клиенты получают уведомления о прогрессе разработки</div>
+                            <div class="solution-stats">
+                                <div class="stat-box">
+                                    <span class="stat-value">+60%</span>
+                                    <span class="stat-label">Довольства</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-value">Встроено</span>
+                                    <span class="stat-label">В системе</span>
+                                </div>
+                            </div>
+                            <div class="solution-price">
+                                <div class="price-amount">Включено</div>
+                                <div class="price-period">в стоимости</div>
+                            </div>
+                            <button class="solution-btn">Добавить бесплатно</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="section-title">Почему готовые решения лучше</h2>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Параметр</th>
+                            <th>Сборка с нуля</th>
+                            <th>Готовое решение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Время внедрения</strong></td>
+                            <td class="negative">2–4 недели</td>
+                            <td class="positive">3–5 дней</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Стоимость разработки</strong></td>
+                            <td class="negative">80 000–150 000 ₽</td>
+                            <td class="positive">20 000–55 000 ₽</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Риск ошибок</strong></td>
+                            <td class="negative">Высокий</td>
+                            <td class="positive">Минимальный</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Поддержка</strong></td>
+                            <td class="negative">Вы сами</td>
+                            <td class="positive">Мы берём</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Обновления</strong></td>
+                            <td class="negative">За доп. плату</td>
+                            <td class="positive">Бесплатно</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Масштабирование</strong></td>
+                            <td class="negative">Переделка нужна</td>
+                            <td class="positive">Готово к расширению</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Согласно лучших практик</strong></td>
+                            <td class="negative">Может быть нет</td>
+                            <td class="positive">Да, протестировано</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- Подвал вставляется через js/components.js -->
+    <div id="site-footer"></div>
+
+    <script src="js/components.js"></script>
+    <script src="js/audit-form.js"></script>
+    <script>
+        // Button click handlers
+        document.querySelectorAll('.solution-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const solution = this.closest('.solution-item').querySelector('.solution-title').textContent;
+                openBriefModal();
+            });
+        });
+    </script>
+</body>
+</html>

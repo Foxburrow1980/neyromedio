@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог ИИ-ассистентов | Нейромедиа</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Шрифт уже подключён в css/main.css */
+
+        :root {
+            --primary: #00D9FF;
+            --secondary: #6B3FD6;
+            --dark: #0F1117;
+            --text: #E8E8F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* ============ BG ============ */
+        .ai-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(0,217,255,0.15), transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(107,63,214,0.15), transparent 40%);
+            z-index: -2;
+        }
+
+        .ai-network::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: networkMove 40s linear infinite;
+        }
+
+        @keyframes networkMove {
+            0% { transform: translate(0,0) }
+            100% { transform: translate(-60px,-60px) }
+        }
+
+        /* ============ GLASS ============ */
+        .glass {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* ============ CONTAINER ============ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============ NAVBAR ============ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(15, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 16px;
+        }
+
+        @media (min-width: 768px) {
+            nav {
+                padding: 16px 24px;
+            }
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(to top right, #00D9FF, #6B3FD6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 16px;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+
+        @media (min-width: 768px) {
+            .logo-text {
+                font-size: 18px;
+            }
+        }
+
+        .desktop-menu {
+            display: none;
+            gap: 24px;
+            align-items: center;
+            list-style: none;
+        }
+
+        @media (min-width: 1024px) {
+            .desktop-menu {
+                display: flex;
+            }
+        }
+
+        .desktop-menu a {
+            color: #E8E8F0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .desktop-menu a:hover {
+            color: #00D9FF;
+            border-bottom-color: #00D9FF;
+        }
+
+        .desktop-menu a.active {
+            color: #00D9FF;
+            border-bottom-color: #00D9FF;
+        }
+
+        .nav-buttons {
+            display: none;
+            gap: 12px;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-buttons {
+                display: flex;
+            }
+        }
+
+        .audit-btn {
+            background: white;
+            color: black;
+            font-weight: 800;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .audit-btn:hover {
+            background: #00D9FF;
+            transform: scale(1.05);
+        }
+
+        .vk-btn {
+            background: #00D9FF;
+            color: #0F1117;
+            font-weight: 800;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .vk-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .burger-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        @media (min-width: 1024px) {
+            .burger-menu {
+                display: none;
+            }
+        }
+
+        .burger-menu span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: all 0.4s ease;
+            border-radius: 3px;
+        }
+
+        .burger-menu.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .burger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-menu.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 70px;
+            left: -100%;
+            width: 100%;
+            height: calc(100vh - 70px);
+            background: rgba(15, 17, 23, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+            transition: left 0.4s ease;
+            z-index: 1000;
+            gap: 20px;
+            display: flex;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            left: 0;
+        }
+
+        .mobile-nav a,
+        .mobile-nav button {
+            color: #E8E8F0;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 15px 20px;
+            width: 90%;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .mobile-nav a:hover {
+            background: rgba(0, 217, 255, 0.1);
+            color: #00D9FF;
+        }
+
+        .mobile-nav .audit-btn {
+            background: white;
+            color: black;
+            margin-top: 10px;
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            margin-top: 80px;
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                margin-top: 100px;
+                padding: 40px 0 30px;
+            }
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 100px;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* ============ ASSISTANTS GRID ============ */
+        .assistants-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, var(--text), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+        }
+
+        .assistants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .assistants-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        .assistant-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: fadeInUp 0.6s ease-out backwards;
+            position: relative;
+        }
+
+        .assistant-card:hover {
+            transform: translateY(-16px);
+            border-color: var(--primary);
+            box-shadow: 0 30px 80px rgba(0, 217, 255, 0.2);
+        }
+
+        .assistant-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .assistant-card:hover .assistant-image {
+            transform: scale(1.05);
+        }
+
+        .assistant-content {
+            padding: 24px;
+        }
+
+        .assistant-icon-box {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(107, 63, 214, 0.2));
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .assistant-card:hover .assistant-icon-box {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.3), rgba(107, 63, 214, 0.3));
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .assistant-icon {
+            font-size: 28px;
+        }
+
+        .assistant-name {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .assistant-desc {
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .assistant-features {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .feature {
+            font-size: 12px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .assistant-cta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cta-btn {
+            flex: 1;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-customize {
+            background: linear-gradient(135deg, var(--primary), #0099FF);
+            color: var(--dark);
+        }
+
+        .btn-customize:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-info {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-info:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* ============ CTA SECTION ============ */
+        .cta-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, rgba(107, 63, 214, 0.1), rgba(0, 217, 255, 0.05));
+            border-top: 1px solid rgba(107, 63, 214, 0.2);
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .cta-content p {
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn-large {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 18px 48px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .cta-btn-large:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0, 217, 255, 0.3);
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: #1A1A2E;
+            border-top: 1px solid rgba(107, 63, 214, 0.2);
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: var(--text);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .footer-section a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(107, 63, 214, 0.2);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        /* ============ MODAL ============ */
+        #briefModal {
+            display: none;
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: #0f1117;
+            border: 1px solid #2a2a3a;
+            border-radius: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0 10px;
+            padding: 0 20px;
+        }
+        .step-dot {
+            width: 30px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            flex: 1;
+            margin: 0 4px;
+            transition: all 0.3s ease;
+        }
+        .step-dot.active {
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .problem-card, .goal-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .problem-card:hover, .goal-card:hover {
+            border-color: rgba(0,217,255,0.3);
+            background: rgba(0,217,255,0.05);
+        }
+        .problem-card.selected, .goal-card.selected {
+            border: 1px solid var(--primary);
+            background: rgba(0,217,255,0.1);
+            box-shadow: 0 0 15px rgba(0,217,255,0.2);
+            transform: scale(1.02);
+        }
+
+        .brief-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 24px 20px 20px;
+            border-top: 1px solid #222;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .brief-btn {
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        .brief-btn.primary {
+            background: white;
+            color: black;
+        }
+        .brief-btn.primary:hover { 
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,217,255,0.2);
+        }
+        .brief-btn.secondary {
+            background: transparent;
+            border: 1px solid #444;
+            color: #ccc;
+        }
+        .brief-btn.secondary:hover { 
+            border-color: white; 
+            color: white;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            transition: all 0.3s ease;
+            color: white;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 15px rgba(0,217,255,0.2) !important;
+            background-color: rgba(0,217,255,0.05) !important;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .cta-content h2 {
+                font-size: 28px;
+            }
+
+            .cta-btn-large {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ai-network"></div>
+
+    <!-- NAVBAR -->
+    <!-- Шапка вставляется через js/components.js -->
+    <div id="site-header"></div>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-badge animate-fade-in-up">12 ЦИФРОВЫХ СОТРУДНИКОВ</div>
+            <h1 class="animate-fade-in-up">Готовые <span style="color: #00D9FF">ИИ-ассистенты</span></h1>
+            <p class="hero-subtitle animate-fade-in-up" style="animation-delay: 0.1s">Выберите нужного помощника для вашего бизнеса. Каждый ассистент полностью настраивается под вашу нишу и интегрируется в вашу систему</p>
+        </div>
+    </header>
+
+    <!-- ASSISTANTS -->
+    <section class="assistants-section">
+        <div class="container">
+            <h2 class="section-title">Все ассистенты</h2>
+
+            <div class="assistants-grid" id="assistantsGrid"></div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Не нашли подходящего?</h2>
+                <p>Мы создадим персональное решение под вашу задачу. Любой ассистент можно кастомизировать и интегрировать в вашу систему</p>
+                <button class="cta-btn-large" onclick="openBriefModal()">Заказать консультацию</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал вставляется через js/components.js -->
+    <div id="site-footer"></div>
+
+    <script src="js/components.js"></script>
+    <script src="js/audit-form.js"></script>
+
+    <script>
+        lucide.createIcons();
+
+        // ========== АССИСТЕНТЫ ==========
+        const assistants = [
+            {
+                icon: '📞',
+                name: 'ИИ-Секретарь',
+                desc: 'Автоматический приём звонков, запись на приём, управление календарём',
+                image: 'https://via.placeholder.com/300x200?text=AI-Secretary',
+                features: ['Telegram', 'SMS уведомления', 'Календарь', 'CRM-интеграция']
+            },
+            {
+                icon: '📈',
+                name: 'Менеджер по продажам',
+                desc: 'Обработка лидов, квалификация заявок, отправка предложений',
+                image: 'https://via.placeholder.com/300x200?text=Sales-Manager',
+                features: ['Telegram', 'Email', 'Аналитика', 'CRM']
+            },
+            {
+                icon: '✍️',
+                name: 'Контент-мейкер',
+                desc: 'Генерирует посты, статьи, описания для соцсетей и сайтов',
+                image: 'https://via.placeholder.com/300x200?text=Content-Maker',
+                features: ['Telegram', 'Email', 'Расписание', 'Редактор']
+            },
+            {
+                icon: '🎧',
+                name: 'ИИ-Техподдержка',
+                desc: 'Ответы на часто задаваемые вопросы, решение типовых проблем',
+                image: 'https://via.placeholder.com/300x200?text=Support',
+                features: ['Telegram', 'Email', 'FAQ', 'Эскалация']
+            },
+            {
+                icon: '📅',
+                name: 'Запись на услуги',
+                desc: 'Онлайн-запись клиентов, управление расписанием, напоминания',
+                image: 'https://via.placeholder.com/300x200?text=Booking',
+                features: ['Telegram', 'SMS', 'Календарь', 'Уведомления']
+            },
+            {
+                icon: '📊',
+                name: 'ИИ-Аналитик',
+                desc: 'Анализ данных, формирование отчётов, прогнозы и тренды',
+                image: 'https://via.placeholder.com/300x200?text=Analytics',
+                features: ['Email', 'Таблицы', 'Графики', 'Прогноз']
+            },
+            {
+                icon: '👥',
+                name: 'HR-рекрутер',
+                desc: 'Поиск кандидатов, скрининг, проведение первых интервью',
+                image: 'https://via.placeholder.com/300x200?text=HR-Recruiter',
+                features: ['Email', 'SMS', 'Базы CV', 'Интеграция']
+            },
+            {
+                icon: '🚚',
+                name: 'ИИ-Логист',
+                desc: 'Оптимизация доставки, управление заказами, маршруты',
+                image: 'https://via.placeholder.com/300x200?text=Logistics',
+                features: ['Telegram', 'SMS', 'Маршруты', 'Трекинг']
+            },
+            {
+                icon: '👔',
+                name: 'Ассистент руководителя',
+                desc: 'Управление задачами, встречами, планами, напоминания',
+                image: 'https://via.placeholder.com/300x200?text=Assistant',
+                features: ['Email', 'Календарь', 'Напоминания', 'Заметки']
+            },
+            {
+                icon: '💰',
+                name: 'ИИ-Бухгалтер',
+                desc: 'Финансовый учет, управление расходами, налоговые отчёты',
+                image: 'https://via.placeholder.com/300x200?text=Accountant',
+                features: ['Email', 'Таблицы', 'Налоги', 'Отчеты']
+            },
+            {
+                icon: '📣',
+                name: 'ИИ-Маркетолог',
+                desc: 'Планирование кампаний, анализ рекламы, стратегия развития',
+                image: 'https://via.placeholder.com/300x200?text=Marketing',
+                features: ['Email', 'Analytics', 'Таргетинг', 'Отчеты']
+            },
+            {
+                icon: '🤖',
+                name: 'Чат-бот Telegram',
+                desc: 'Универсальный бот для любых задач, полная кастомизация',
+                image: 'https://via.placeholder.com/300x200?text=Telegram-Bot',
+                features: ['Telegram', 'API', 'Кастомизация', 'Интеграция']
+            }
+        ];
+
+        function renderAssistants() {
+            const grid = document.getElementById('assistantsGrid');
+
+            grid.innerHTML = assistants.map((assistant, i) => `
+                <div class="assistant-card animate-on-scroll" style="animation-delay: ${i * 0.05}s">
+                    <img src="${assistant.image}" alt="${assistant.name}" class="assistant-image" onerror="this.src='https://via.placeholder.com/300x200?text=${encodeURIComponent(assistant.name)}'">
+                    <div class="assistant-content">
+                        <div class="assistant-icon-box">
+                            <span class="assistant-icon">${assistant.icon}</span>
+                        </div>
+                        <h3 class="assistant-name">${assistant.name}</h3>
+                        <p class="assistant-desc">${assistant.desc}</p>
+                        <div class="assistant-features">
+                            ${assistant.features.map(f => `<div class="feature">${f}</div>`).join('')}
+                        </div>
+                        <div class="assistant-cta">
+                            <button class="cta-btn btn-customize" onclick="openBriefModal()">Кастомизировать</button>
+                            <button class="cta-btn btn-info" onclick="alert('Подробное описание ассистента')">Подробнее</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            setTimeout(() => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            }, 0);
+        }
+
+        renderAssistants();
+
+        // ========== БУРГЕР-МЕНЮ ==========
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        if (burgerMenu) {
+            burgerMenu.addEventListener('click', () => {
+                burgerMenu.classList.toggle('active');
+                mobileNav.classList.toggle('active');
+            });
+            document.querySelectorAll('.mobile-nav a, .mobile-nav button').forEach(link => {
+                link.addEventListener('click', () => {
+                    burgerMenu.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                });
+            });
+        }
+    </script>
+</body>
+</html>

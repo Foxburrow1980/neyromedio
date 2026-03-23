@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 ниш бизнеса | Нейромедиа</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Шрифт уже подключён в css/main.css */
+
+        :root {
+            --primary: #00D9FF;
+            --secondary: #6B3FD6;
+            --dark: #0F1117;
+            --text: #E8E8F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--dark);
+            color: var(--text);
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* ============ BG ============ */
+        .ai-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(0,217,255,0.15), transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(107,63,214,0.15), transparent 40%);
+            z-index: -2;
+        }
+
+        .ai-network::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: networkMove 40s linear infinite;
+        }
+
+        @keyframes networkMove {
+            0% { transform: translate(0,0) }
+            100% { transform: translate(-60px,-60px) }
+        }
+
+        /* ============ GLASS ============ */
+        .glass {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* ============ CONTAINER ============ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============ NAVBAR ============ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(15, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 16px;
+        }
+
+        @media (min-width: 768px) {
+            nav {
+                padding: 16px 24px;
+            }
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(to top right, #00D9FF, #6B3FD6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 16px;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+
+        @media (min-width: 768px) {
+            .logo-text {
+                font-size: 18px;
+            }
+        }
+
+        .desktop-menu {
+            display: none;
+            gap: 24px;
+            align-items: center;
+            list-style: none;
+        }
+
+        @media (min-width: 1024px) {
+            .desktop-menu {
+                display: flex;
+            }
+        }
+
+        .desktop-menu a {
+            color: #E8E8F0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .desktop-menu a:hover,
+        .desktop-menu a.active {
+            color: #00D9FF;
+            border-bottom-color: #00D9FF;
+        }
+
+        .nav-buttons {
+            display: none;
+            gap: 12px;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-buttons {
+                display: flex;
+            }
+        }
+
+        .audit-btn {
+            background: white;
+            color: black;
+            font-weight: 800;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .audit-btn:hover {
+            background: #00D9FF;
+            transform: scale(1.05);
+        }
+
+        .vk-btn {
+            background: #00D9FF;
+            color: #0F1117;
+            font-weight: 800;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .vk-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .burger-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        @media (min-width: 1024px) {
+            .burger-menu {
+                display: none;
+            }
+        }
+
+        .burger-menu span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: all 0.4s ease;
+            border-radius: 3px;
+        }
+
+        .burger-menu.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .burger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-menu.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 70px;
+            left: -100%;
+            width: 100%;
+            height: calc(100vh - 70px);
+            background: rgba(15, 17, 23, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+            transition: left 0.4s ease;
+            z-index: 1000;
+            gap: 20px;
+            display: flex;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            left: 0;
+        }
+
+        .mobile-nav a,
+        .mobile-nav button {
+            color: #E8E8F0;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 15px 20px;
+            width: 90%;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .mobile-nav a:hover {
+            background: rgba(0, 217, 255, 0.1);
+            color: #00D9FF;
+        }
+
+        .mobile-nav .audit-btn {
+            background: white;
+            color: black;
+            margin-top: 10px;
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            margin-top: 80px;
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                margin-top: 100px;
+                padding: 40px 0 30px;
+            }
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 100px;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* ============ SEARCH & FILTERS ============ */
+        .search-filters-section {
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 0.7rem 1rem;
+            background: rgba(107, 63, 214, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 20px;
+            color: var(--text);
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        @media (min-width: 768px) {
+            .search-input {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(0, 217, 255, 0.05);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: rgba(232, 232, 240, 0.4);
+        }
+
+        /* ============ FILTERS & SORT ============ */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            padding: 0 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .filters {
+                gap: 1rem;
+            }
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            color: var(--text);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: var(--dark);
+            border-color: var(--primary);
+        }
+
+        .sort-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+
+        .sort-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            color: var(--primary);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .sort-btn.active {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .sort-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* ============ NICHES GRID ============ */
+        .section {
+            padding: 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .section {
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        .niches-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            padding: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 640px) {
+            .niches-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                padding: 1rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .niches-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+                padding: 2rem;
+            }
+        }
+
+        .niche-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .niche-card {
+                padding: 2rem;
+            }
+        }
+
+        .niche-card:hover {
+            transform: translateY(-16px);
+            border-color: var(--primary);
+            box-shadow: 0 30px 80px rgba(0, 217, 255, 0.2);
+        }
+
+        .niche-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(107, 63, 214, 0.2));
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            font-size: 28px;
+        }
+
+        .niche-card:hover .niche-icon {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.3), rgba(107, 63, 214, 0.3));
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .niche-card h3 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        @media (min-width: 768px) {
+            .niche-card h3 {
+                font-size: 18px;
+            }
+        }
+
+        .niche-card p {
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        @media (min-width: 768px) {
+            .niche-card p {
+                font-size: 13px;
+                margin-bottom: 18px;
+            }
+        }
+
+        .solutions-list {
+            font-size: 12px;
+            color: var(--text);
+            margin-bottom: 18px;
+            line-height: 1.6;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @media (min-width: 768px) {
+            .solutions-list {
+                font-size: 12px;
+                margin-bottom: 18px;
+            }
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 8px 12px;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: 8px;
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* ============ NO RESULTS ============ */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(232, 232, 240, 0.5);
+        }
+
+        .no-results h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: #1A1A2E;
+            border-top: 1px solid rgba(107, 63, 214, 0.2);
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: var(--text);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .footer-section a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(107, 63, 214, 0.2);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        /* ============ MODAL ============ */
+        #briefModal {
+            display: none;
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: #0f1117;
+            border: 1px solid #2a2a3a;
+            border-radius: 32px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0 10px;
+            padding: 0 20px;
+        }
+        .step-dot {
+            width: 30px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            flex: 1;
+            margin: 0 4px;
+            transition: all 0.3s ease;
+        }
+        .step-dot.active {
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .problem-card, .goal-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .problem-card:hover, .goal-card:hover {
+            border-color: rgba(0,217,255,0.3);
+            background: rgba(0,217,255,0.05);
+        }
+        .problem-card.selected, .goal-card.selected {
+            border: 1px solid var(--primary);
+            background: rgba(0,217,255,0.1);
+            box-shadow: 0 0 15px rgba(0,217,255,0.2);
+            transform: scale(1.02);
+        }
+
+        .brief-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 24px 20px 20px;
+            border-top: 1px solid #222;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .brief-btn {
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        .brief-btn.primary {
+            background: white;
+            color: black;
+        }
+        .brief-btn.primary:hover { 
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,217,255,0.2);
+        }
+        .brief-btn.secondary {
+            background: transparent;
+            border: 1px solid #444;
+            color: #ccc;
+        }
+        .brief-btn.secondary:hover { 
+            border-color: white; 
+            color: white;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            transition: all 0.3s ease;
+            color: white;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 15px rgba(0,217,255,0.2) !important;
+            background-color: rgba(0,217,255,0.05) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="ai-network"></div>
+
+    <!-- NAVBAR -->
+    <!-- Шапка вставляется через js/components.js -->
+    <div id="site-header"></div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge animate-fade-in-up">100 НАПРАВЛЕНИЙ БИЗНЕСА</div>
+            <h1 class="animate-fade-in-up">Найдите вашу <span style="color: #00D9FF">нишу</span></h1>
+            <p class="hero-subtitle animate-fade-in-up" style="animation-delay: 0.1s">Автоматизируем любую нишу. Выберите свой бизнес и узнайте, как увеличить прибыль на 40%+</p>
+        </div>
+    </section>
+
+    <!-- Search & Filters -->
+    <section class="search-filters-section">
+        <div class="container">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="Поиск ниши (например: салон красоты, кафе, клиника)...">
+            </div>
+
+            <div class="controls">
+                <div class="filters" id="filterContainer"></div>
+                <div class="sort-controls">
+                    <button class="sort-btn active" data-sort="popular">По популярности</button>
+                    <button class="sort-btn" data-sort="results">По результатам</button>
+                    <button class="sort-btn" data-sort="name">По названию</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Niches Grid -->
+    <div class="container">
+        <div class="niches-grid" id="nichesGrid"></div>
+        <div class="no-results" id="noResults" style="display: none;">
+            <h3>Ничего не найдено</h3>
+            <p>Попробуйте изменить критерии поиска</p>
+        </div>
+    </div>
+
+    <!-- Подвал вставляется через js/components.js -->
+    <div id="site-footer"></div>
+
+    <script src="js/components.js"></script>
+    <script src="js/audit-form.js"></script>
+
+    <script>
+        lucide.createIcons();
+
+        // ========== 100 НИШИ ==========
+        const allNiches = [
+            // КРАСОТА (20)
+            { id: 1, name: "Парикмахерские и салоны красоты", category: "beauty", description: "Стрижки, окраска, укладки, процедуры красоты", solutions: "Сайт с онлайн-записью, AI-ассистент 24/7, CRM, Telegram-боты", result: "+25-35% клиентов", popularity: 95 },
+            { id: 2, name: "Маникюр и педикюр", category: "beauty", description: "Ногтевой сервис, nail-art, укрепление ногтей", solutions: "Система бронирования, AI-ассистент, Telegram-боты, Instagram посты", result: "+30-45% клиентов", popularity: 90 },
+            { id: 3, name: "Косметология и эстетика", category: "beauty", description: "Лазерное удаление, биоревитализация, мезотерапия", solutions: "Сайт с консультацией, AI-ассистент, CRM, Email-маркетинг", result: "+50-70% повторных клиентов", popularity: 85 },
+            { id: 4, name: "Spa и массаж", category: "beauty", description: "Релаксирующие и лечебные процедуры, массаж", solutions: "Онлайн-запись, AI-консультант, программа лояльности", result: "+40-50% клиентов", popularity: 80 },
+            { id: 5, name: "Микроблейдинг и татуировка", category: "beauty", description: "Перманентный макияж, татуировка, пирсинг", solutions: "Портфолио онлайн, Telegram-бот, AI-консультант", result: "+35-45% заявок", popularity: 75 },
+            { id: 6, name: "Тренажерные залы и фитнес", category: "beauty", description: "Тренировки, групповые занятия, персональный тренинг", solutions: "Приложение для записи, AI-тренер, система абонементов", result: "+60% новых членов", popularity: 92 },
+            { id: 7, name: "Йога и пилатес", category: "beauty", description: "Групповые и индивидуальные занятия", solutions: "Онлайн-расписание, AI-ассистент, YouTube интеграция", result: "+40% посещений", popularity: 78 },
+            { id: 8, name: "Салоны загара", category: "beauty", description: "Услуги солярия и автозагара", solutions: "Система бронирования, SMS уведомления, программа лояльности", result: "+30% клиентов", popularity: 70 },
+            { id: 9, name: "Косметика и парфюмерия", category: "beauty", description: "Продажа косметики, парфюма, уход за кожей", solutions: "Интернет-магазин, AI-рекомендации, Telegram-бот", result: "+80% онлайн-продаж", popularity: 88 },
+            { id: 10, name: "Парикмахерские для животных", category: "beauty", description: "Груминг собак, кошек, других животных", solutions: "Онлайн-запись, AI-ассистент, карточка животного", result: "+50% клиентов", popularity: 72 },
+            { id: 11, name: "Ногтевые студии", category: "beauty", description: "Наращивание ногтей, педикюр, дизайн", solutions: "Система бронирования, AI-консультант, Instagram-бот", result: "+45% клиентов", popularity: 87 },
+            { id: 12, name: "Салоны эпиляции", category: "beauty", description: "Восковая эпиляция, шугаринг, лазерная эпиляция", solutions: "Онлайн-запись, AI-ассистент, Telegram-боты", result: "+40% клиентов", popularity: 82 },
+            { id: 13, name: "Тату-салоны", category: "beauty", description: "Татуировки, пирсинг, художественные работы", solutions: "Портфолио онлайн, AI-консультант, Telegram-бот", result: "+35% клиентов", popularity: 76 },
+            { id: 14, name: "Салоны красоты для мужчин", category: "beauty", description: "Барбершопы, уход за бородой, стрижки", solutions: "Онлайн-запись, AI-ассистент, программа лояльности", result: "+50% клиентов", popularity: 81 },
+            { id: 15, name: "Студии микроблейдинга", category: "beauty", description: "Перманентный макияж, коррекция бровей", solutions: "Портфолио онлайн, AI-консультант, Telegram-бот", result: "+40% клиентов", popularity: 77 },
+            { id: 16, name: "Салоны педикюра", category: "beauty", description: "Профессиональный уход за ногами", solutions: "Онлайн-запись, AI-ассистент, программа скидок", result: "+35% клиентов", popularity: 73 },
+            { id: 17, name: "Студии бровей", category: "beauty", description: "Окрашивание, коррекция, ламинирование бровей", solutions: "Онлайн-запись, AI-ассистент, Telegram-бот", result: "+40% клиентов", popularity: 79 },
+            { id: 18, name: "Салоны наращивания волос", category: "beauty", description: "Наращивание волос, замещение, укрепление", solutions: "Онлайн-запись, AI-консультант, уход советы", result: "+45% клиентов", popularity: 83 },
+            { id: 19, name: "Шугаринг студии", category: "beauty", description: "Депиляция сахарной пастой, уход за кожей", solutions: "Онлайн-запись, AI-ассистент, SMS уведомления", result: "+40% клиентов", popularity: 80 },
+            { id: 20, name: "Лазерная клиника красоты", category: "beauty", description: "Лазерная эпиляция, удаление татуировок, омоложение", solutions: "Сайт с консультацией, AI-ассистент, CRM", result: "+55% клиентов", popularity: 86 },
+
+            // МЕДИЦИНА (15)
+            { id: 21, name: "Клиники и кабинеты врачей", category: "medical", description: "Прием пациентов, диагностика, лечение", solutions: "Сайт с консультациями, Система управления, CRM, Telegram-боты", result: "+40% новых пациентов", popularity: 93 },
+            { id: 22, name: "Стоматология", category: "medical", description: "Лечение кариеса, протезирование, имплантация", solutions: "Сайт, AI-ассистент, система напоминаний, CRM, автоматизация счетов", result: "+35-45% пациентов", popularity: 94 },
+            { id: 23, name: "Ветеринарные клиники", category: "medical", description: "Лечение животных, вакцинация, хирургия", solutions: "Онлайн-запись, AI-ассистент, карточка питомца, Email уведомления", result: "+50% пациентов", popularity: 85 },
+            { id: 24, name: "Кабинеты психолога", category: "medical", description: "Консультации, психотерапия, коучинг", solutions: "Онлайн-запись, AI-расписание, Zoom интеграция, Email", result: "+40% клиентов", popularity: 78 },
+            { id: 25, name: "Офтальмология", category: "medical", description: "Проверка зрения, подбор очков, контактных линз", solutions: "Онлайн-консультация, AI-ассистент, система управления", result: "+35% пациентов", popularity: 79 },
+            { id: 26, name: "Дерматология", category: "medical", description: "Лечение кожных заболеваний, косметология", solutions: "Сайт с консультацией, AI-ассистент, фото-анализ", result: "+45% пациентов", popularity: 81 },
+            { id: 27, name: "Ортопедия", category: "medical", description: "Лечение суставов, позвоночника, переломов", solutions: "Онлайн-консультация, AI-ассистент, система управления", result: "+40% пациентов", popularity: 80 },
+            { id: 28, name: "Отоларингология", category: "medical", description: "Лечение ушей, горла, носа", solutions: "Онлайн-консультация, AI-ассистент, Telegram-бот", result: "+35% пациентов", popularity: 77 },
+            { id: 29, name: "Гастроэнтерология", category: "medical", description: "Лечение желудочно-кишечных заболеваний", solutions: "Онлайн-консультация, AI-ассистент, анализы онлайн", result: "+40% пациентов", popularity: 78 },
+            { id: 30, name: "Кардиология", category: "medical", description: "Лечение сердечно-сосудистых заболеваний", solutions: "Онлайн-консультация, AI-ассистент, мониторинг", result: "+38% пациентов", popularity: 79 },
+            { id: 31, name: "Неврология", category: "medical", description: "Лечение заболеваний нервной системы", solutions: "Онлайн-консультация, AI-ассистент, система управления", result: "+40% пациентов", popularity: 79 },
+            { id: 32, name: "Уролог", category: "medical", description: "Лечение мочеполовой системы", solutions: "Онлайн-консультация, AI-ассистент, Telegram-бот", result: "+35% пациентов", popularity: 76 },
+            { id: 33, name: "Гинекология", category: "medical", description: "Женское здоровье, гинекологические услуги", solutions: "Онлайн-консультация, AI-ассистент, система управления", result: "+40% пациентов", popularity: 81 },
+            { id: 34, name: "Педиатрия", category: "medical", description: "Лечение детских заболеваний", solutions: "Онлайн-консультация, AI-ассистент, карточка ребенка", result: "+45% пациентов", popularity: 82 },
+            { id: 35, name: "Логопедия", category: "medical", description: "Коррекция речи, логопедические занятия", solutions: "Онлайн-занятия, AI-ассистент, упражнения онлайн", result: "+50% клиентов", popularity: 80 },
+
+            // ЕДА (15)
+            { id: 36, name: "Рестораны и кафе", category: "food", description: "Обеды, ужины, доставка, кейтеринг", solutions: "Сайт с меню и заказами, Мини-приложение, AI-ассистент, Telegram", result: "+30-50% онлайн-заказов", popularity: 91 },
+            { id: 37, name: "Пекарни и кондитерские", category: "food", description: "Хлеб, торты, пирожные, булочки", solutions: "Сайт-каталог, онлайн-заказы, Telegram-бот, CRM, Instagram", result: "+40-60% заказов", popularity: 85 },
+            { id: 38, name: "Кофейни", category: "food", description: "Кофе, напитки, легкие закуски", solutions: "Мобильное приложение, AI-ассистент, программа лояльности", result: "+50% повторных клиентов", popularity: 84 },
+            { id: 39, name: "Пиццерии", category: "food", description: "Пицца, итальянская кухня, доставка", solutions: "Сайт с заказами, AI-ассистент, Telegram-бот, доставка", result: "+60% онлайн-заказов", popularity: 89 },
+            { id: 40, name: "Суши-бары", category: "food", description: "Суши, роллы, японская кухня", solutions: "Мобильное приложение, AI-рекомендации, Telegram-бот", result: "+55% онлайн-заказов", popularity: 88 },
+            { id: 41, name: "Блинные", category: "food", description: "Блины, панкейки, завтраки", solutions: "Сайт с меню, AI-ассистент, Telegram-бот, программа лояльности", result: "+40% клиентов", popularity: 76 },
+            { id: 42, name: "Барбекю и гриль-бары", category: "food", description: "Шашлыки, мясо, гриль", solutions: "Сайт с резервацией, AI-ассистент, Telegram-бот", result: "+35% клиентов", popularity: 78 },
+            { id: 43, name: "Вегетарианские рестораны", category: "food", description: "Здоровое питание, веганские блюда", solutions: "Сайт с меню, AI-ассистент, программа здоровья", result: "+50% клиентов", popularity: 77 },
+            { id: 44, name: "Фаст-фуд", category: "food", description: "Быстрое питание, бургеры, хотдоги", solutions: "Мобильное приложение, AI-ассистент, программа скидок", result: "+70% онлайн-заказов", popularity: 90 },
+            { id: 45, name: "Доставка еды", category: "food", description: "Агрегатор доставки, логистика", solutions: "Мобильное приложение, AI-маршруты, система управления", result: "+100% доставок", popularity: 87 },
+            { id: 46, name: "Столовые и обеденные залы", category: "food", description: "Корпоративное питание, обеды", solutions: "Система меню, AI-ассистент, управление ингредиентами", result: "+40% клиентов", popularity: 74 },
+            { id: 47, name: "Караоке-рестораны", category: "food", description: "Еда, развлечение, караоке", solutions: "Сайт с резервацией, AI-ассистент, система бронирования", result: "+45% клиентов", popularity: 75 },
+            { id: 48, name: "Бары и пабы", category: "food", description: "Алкогольные напитки, закуски, общение", solutions: "Сайт с мероприятиями, AI-ассистент, программа лояльности", result: "+40% клиентов", popularity: 79 },
+            { id: 49, name: "Ночные клубы", category: "food", description: "Развлечение, танцы, напитки", solutions: "Сайт с событиями, AI-ассистент, система бронирования", result: "+50% посещений", popularity: 76 },
+            { id: 50, name: "Кейтеринг компании", category: "food", description: "Организация питания для событий", solutions: "Сайт с портфолио, AI-ассистент, система управления заказами", result: "+60% заказов", popularity: 80 },
+
+            // ГОСТИНИЦЫ (10)
+            { id: 51, name: "Отели и гостиницы", category: "hotel", description: "Проживание, номера, услуги", solutions: "Система бронирования, AI-консьерж, управление номерами", result: "+40% бронирований", popularity: 89 },
+            { id: 52, name: "Хостелы", category: "hotel", description: "Бюджетное жилье, общие комнаты", solutions: "Сайт с резервацией, AI-ассистент, система управления", result: "+50% бронирований", popularity: 81 },
+            { id: 53, name: "Гостевые дома", category: "hotel", description: "Частное жилье, комнаты в доме", solutions: "Сайт с галереей, AI-ассистент, система бронирования", result: "+45% клиентов", popularity: 79 },
+            { id: 54, name: "Курорты и спа-отели", category: "hotel", description: "Отдых, спа, оздоровление", solutions: "Система бронирования, AI-консьерж, программа лояльности", result: "+50% клиентов", popularity: 85 },
+            { id: 55, name: "Горнолыжные курорты", category: "hotel", description: "Зимний спорт, проживание, инструкторы", solutions: "Система бронирования, AI-ассистент, управление товарами", result: "+45% клиентов", popularity: 82 },
+            { id: 56, name: "Пляжные курорты", category: "hotel", description: "Пляжный отдых, водные виды спорта", solutions: "Система бронирования, AI-ассистент, программа развлечений", result: "+55% клиентов", popularity: 84 },
+            { id: 57, name: "Бизнес-отели", category: "hotel", description: "Проживание для бизнесменов, конференц-залы", solutions: "Система бронирования, AI-консьерж, управление событиями", result: "+40% бронирований", popularity: 80 },
+            { id: 58, name: "Апартаменты и виллы", category: "hotel", description: "Элитное жилье, полное оборудование", solutions: "Сайт с галереей, AI-ассистент, система управления", result: "+50% бронирований", popularity: 83 },
+            { id: 59, name: "Кемпинги и глэмпинги", category: "hotel", description: "Палатки, домики, природный отдых", solutions: "Система бронирования, AI-ассистент, управление активностями", result: "+45% клиентов", popularity: 77 },
+            { id: 60, name: "Туристические базы", category: "hotel", description: "Туризм, экскурсии, проживание", solutions: "Система бронирования, AI-гид, управление турами", result: "+50% клиентов", popularity: 81 },
+
+            // РАЗВЛЕЧЕНИЯ (10)
+            { id: 61, name: "Кинотеатры", category: "entertainment", description: "Фильмы, сеансы, премьеры", solutions: "Система бронирования билетов, AI-рекомендации, программа лояльности", result: "+30% билетов", popularity: 80 },
+            { id: 62, name: "Театры", category: "entertainment", description: "Спектакли, премьеры, абонементы", solutions: "Система бронирования билетов, AI-ассистент, управление программой", result: "+35% билетов", popularity: 79 },
+            { id: 63, name: "Концертные залы", category: "entertainment", description: "Концерты, музыкальные события", solutions: "Система бронирования, AI-ассистент, управление программой", result: "+40% билетов", popularity: 81 },
+            { id: 64, name: "Парки развлечений", category: "entertainment", description: "Аттракционы, горки, развлечения", solutions: "Мобильное приложение, AI-ассистент, система входов", result: "+50% посещений", popularity: 82 },
+            { id: 65, name: "Аквапарки", category: "entertainment", description: "Водные аттракционы, бассейны", solutions: "Мобильное приложение, AI-ассистент, система входов", result: "+45% посещений", popularity: 81 },
+            { id: 66, name: "Игровые центры", category: "entertainment", description: "Видеоигры, аркады, VR", solutions: "Система управления, AI-ассистент, программа лояльности", result: "+40% посещений", popularity: 78 },
+            { id: 67, name: "Боулинги", category: "entertainment", description: "Боулинг, пинг-понг, развлечения", solutions: "Система бронирования дорожек, AI-ассистент, программа скидок", result: "+35% посещений", popularity: 76 },
+            { id: 68, name: "Бильярдные клубы", category: "entertainment", description: "Бильярд, снукер, социальный клуб", solutions: "Система бронирования, AI-ассистент, программа событий", result: "+30% клиентов", popularity: 74 },
+            { id: 69, name: "Эскейм-румы", category: "entertainment", description: "Квесты, головоломки, приключения", solutions: "Система бронирования, AI-ассистент, управление сценариями", result: "+50% брони", popularity: 79 },
+            { id: 70, name: "Музеи", category: "entertainment", description: "Культурные выставки, образование", solutions: "Система онлайн-билетов, AI-гид, виртуальные туры", result: "+40% посещений", popularity: 77 },
+
+            // ОБРАЗОВАНИЕ (10)
+            { id: 71, name: "Языковые курсы", category: "education", description: "Английский, немецкий, другие языки", solutions: "Платформа обучения, AI-тьютор, система оценок", result: "+60% студентов", popularity: 88 },
+            { id: 72, name: "Курсы программирования", category: "education", description: "Python, JavaScript, разработка", solutions: "Платформа обучения, AI-помощник, видео-лекции", result: "+70% студентов", popularity: 90 },
+            { id: 73, name: "Музыкальные школы", category: "education", description: "Пение, музыкальные инструменты", solutions: "Расписание уроков, AI-ассистент, видео-демонстрации", result: "+40% студентов", popularity: 79 },
+            { id: 74, name: "Танцевальные студии", category: "education", description: "Хип-хоп, классика, модерн", solutions: "Система расписания, AI-ассистент, видео-уроки", result: "+45% студентов", popularity: 80 },
+            { id: 75, name: "Курсы маркетинга", category: "education", description: "Digital маркетинг, SEO, SMM", solutions: "Платформа обучения, AI-помощник, инструменты практики", result: "+75% студентов", popularity: 87 },
+            { id: 76, name: "Курсы дизайна", category: "education", description: "Графический дизайн, UI/UX", solutions: "Платформа обучения, AI-куратор, портфолио система", result: "+65% студентов", popularity: 85 },
+            { id: 77, name: "Школы иностранных языков", category: "education", description: "Организованное языковое образование", solutions: "Платформа обучения, AI-тьютор, тесты онлайн", result: "+50% студентов", popularity: 83 },
+            { id: 78, name: "Курсы бизнеса и менеджмента", category: "education", description: "Управление, лидерство, стартапы", solutions: "Платформа обучения, AI-помощник, сетевое взаимодействие", result: "+70% студентов", popularity: 86 },
+            { id: 79, name: "Онлайн-университеты", category: "education", description: "Полная образовательная программа", solutions: "LMS платформа, AI-тьютор, сертификация", result: "+80% студентов", popularity: 88 },
+            { id: 80, name: "Репетиторские услуги", category: "education", description: "Индивидуальные уроки, подготовка к тестам", solutions: "Система расписания, AI-ассистент, видео-записи", result: "+50% клиентов", popularity: 82 },
+
+            // АВТОМОБИЛИ (8)
+            { id: 81, name: "Автосалоны", category: "auto", description: "Продажа новых и подержанных авто", solutions: "Сайт с каталогом, AI-консультант, CRM", result: "+40% продаж", popularity: 85 },
+            { id: 82, name: "Автосервисы", category: "auto", description: "Ремонт, техническое обслуживание", solutions: "Система записи, AI-диагностика, управление запчастями", result: "+50% клиентов", popularity: 86 },
+            { id: 83, name: "Мойки автомобилей", category: "auto", description: "Автомойка, детейлинг, полировка", solutions: "Система бронирования, AI-ассистент, программа лояльности", result: "+40% клиентов", popularity: 80 },
+            { id: 84, name: "Шиномонтажи", category: "auto", description: "Замена шин, балансировка, хранение", solutions: "Система записи, AI-ассистент, управление запасами", result: "+35% клиентов", popularity: 77 },
+            { id: 85, name: "Автошколы", category: "auto", description: "Обучение вождению, подготовка к экзамену", solutions: "Система расписания, AI-ассистент, онлайн-тесты", result: "+50% студентов", popularity: 81 },
+            { id: 86, name: "Автопрокат", category: "auto", description: "Аренда автомобилей", solutions: "Система бронирования, AI-консультант, управление парком", result: "+60% брони", popularity: 83 },
+            { id: 87, name: "Автостоянки и паркинги", category: "auto", description: "Парковка, хранение автомобилей", solutions: "Система управления, AI-контроль, мобильное приложение", result: "+35% клиентов", popularity: 76 },
+            { id: 88, name: "Эвакуаторные услуги", category: "auto", description: "Эвакуация, доставка авто", solutions: "Мобильное приложение, AI-диспетчер, система оплаты", result: "+50% заказов", popularity: 78 },
+
+            // РОЗНИЦА (7)
+            { id: 89, name: "Одежда и мода", category: "retail", description: "Магазин одежды, обуви, аксессуаров", solutions: "Интернет-магазин, AI-рекомендации, Telegram-бот", result: "+100% онлайн-продаж", popularity: 89 },
+            { id: 90, name: "Электроника и гаджеты", category: "retail", description: "Продажа гаджетов, техники", solutions: "Интернет-магазин, AI-рекомендации, система сравнения", result: "+80% онлайн-продаж", popularity: 88 },
+            { id: 91, name: "Мебель", category: "retail", description: "Продажа мебели, предметов интерьера", solutions: "3D каталог, AI-дизайнер, система консультаций", result: "+60% продаж", popularity: 84 },
+            { id: 92, name: "Книжные магазины", category: "retail", description: "Продажа книг, периодики", solutions: "Интернет-магазин, AI-рекомендации, подписки", result: "+70% онлайн-продаж", popularity: 81 },
+            { id: 93, name: "Спортивные товары", category: "retail", description: "Спортивная экипировка, одежда, инвентарь", solutions: "Интернет-магазин, AI-консультант, программа лояльности", result: "+75% онлайн-продаж", popularity: 86 },
+            { id: 94, name: "Игрушки", category: "retail", description: "Продажа игрушек, развивающих игр", solutions: "Интернет-магазин, AI-рекомендации, программа возраста", result: "+70% онлайн-продаж", popularity: 83 },
+            { id: 95, name: "Букеты и цветы", category: "retail", description: "Доставка цветов, букетов, композиций", solutions: "Сайт с каталогом, AI-консультант, система доставки", result: "+80% онлайн-заказов", popularity: 85 },
+
+            // ДРУГОЕ (5)
+            { id: 96, name: "Консалтинг и бизнес-услуги", category: "other", description: "Бизнес-консультации, стратегия", solutions: "Сайт с портфолио, AI-ассистент, система бронирования", result: "+50% клиентов", popularity: 81 },
+            { id: 97, name: "Страховые компании", category: "other", description: "Страховые услуги, полисы", solutions: "Калькулятор онлайн, AI-ассистент, система оформления", result: "+60% клиентов", popularity: 79 },
+            { id: 98, name: "Туристические агентства", category: "other", description: "Организация туров, путешествий", solutions: "Каталог туров, AI-рекомендации, система бронирования", result: "+70% заказов", popularity: 82 },
+            { id: 99, name: "Риэлторские агентства", category: "other", description: "Продажа и аренда недвижимости", solutions: "Каталог объектов, AI-помощник, виртуальные туры", result: "+50% клиентов", popularity: 84 },
+            { id: 100, name: "Юридические услуги", category: "other", description: "Правовые консультации, оформление документов", solutions: "Сайт с услугами, AI-ассистент, система консультаций", result: "+45% клиентов", popularity: 80 },
+        ];
+
+        const categories = [
+            { id: 'all', name: 'Все' },
+            { id: 'beauty', name: 'Красота' },
+            { id: 'medical', name: 'Медицина' },
+            { id: 'food', name: 'Еда' },
+            { id: 'hotel', name: 'Гостиницы' },
+            { id: 'entertainment', name: 'Развлечения' },
+            { id: 'education', name: 'Образование' },
+            { id: 'auto', name: 'Автомобили' },
+            { id: 'retail', name: 'Розница' },
+            { id: 'other', name: 'Другое' },
+        ];
+
+        let currentFilter = 'all';
+        let currentSort = 'popular';
+        let searchQuery = '';
+
+        function renderFilters() {
+            const container = document.getElementById('filterContainer');
+            container.innerHTML = categories.map(cat => 
+                `<button class="filter-btn ${cat.id === 'all' ? 'active' : ''}" data-filter="${cat.id}">${cat.name}</button>`
+            ).join('');
+
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    renderNiches();
+                });
+            });
+        }
+
+        function renderNiches() {
+            const container = document.getElementById('nichesGrid');
+            const noResults = document.getElementById('noResults');
+            let filtered = [...allNiches];
+
+            // Фильтр по категории
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(n => n.category === currentFilter);
+            }
+
+            // Поиск
+            if (searchQuery) {
+                const q = searchQuery.toLowerCase();
+                filtered = filtered.filter(n => 
+                    n.name.toLowerCase().includes(q) || 
+                    n.description.toLowerCase().includes(q)
+                );
+            }
+
+            // Сортировка
+            if (currentSort === 'popular') {
+                filtered.sort((a, b) => b.popularity - a.popularity);
+            } else if (currentSort === 'results') {
+                filtered.sort((a, b) => {
+                    const extractNum = (str) => parseInt(str.match(/\d+/)?.[0] || 0);
+                    return extractNum(b.result) - extractNum(a.result);
+                });
+            } else if (currentSort === 'name') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
+            container.innerHTML = filtered.map((niche, idx) => `
+                <div class="niche-card animate-on-scroll" style="animation-delay: ${idx * 0.02}s">
+                    <div class="niche-icon">
+                        ${
+                            niche.category === 'beauty' ? '💄' :
+                            niche.category === 'medical' ? '🏥' :
+                            niche.category === 'food' ? '🍽️' :
+                            niche.category === 'hotel' ? '🏨' :
+                            niche.category === 'entertainment' ? '🎭' :
+                            niche.category === 'education' ? '📚' :
+                            niche.category === 'auto' ? '🚗' :
+                            niche.category === 'retail' ? '🛍️' :
+                            '⭐'
+                        }
+                    </div>
+                    <h3>${niche.name}</h3>
+                    <p>${niche.description}</p>
+                    <div class="solutions-list"><strong>Решения:</strong> ${niche.solutions}</div>
+                    <span class="result-badge">${niche.result}</span>
+                </div>
+            `).join('');
+
+            setTimeout(() => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            }, 0);
+        }
+
+        // Поиск
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderNiches();
+        });
+
+        // Сортировка
+        document.querySelectorAll('.sort-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSort = btn.dataset.sort;
+                renderNiches();
+            });
+        });
+
+        renderFilters();
+        renderNiches();
+
+        // ========== БУРГЕР-МЕНЮ ==========
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        if (burgerMenu) {
+            burgerMenu.addEventListener('click', () => {
+                burgerMenu.classList.toggle('active');
+                mobileNav.classList.toggle('active');
+            });
+            document.querySelectorAll('.mobile-nav a, .mobile-nav button').forEach(link => {
+                link.addEventListener('click', () => {
+                    burgerMenu.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                });
+            });
+        }
+    </script>
+</body>
+</html>
