@@ -15,7 +15,7 @@
         { href: 'assistants.html', label: 'Ассистенты' },
         { href: 'solutions.html',  label: 'Решения' },
         { href: 'niches.html',     label: 'Ниши' },
-        { href: 'forma.html',      label: 'Аудит' },
+        { href: 'social.html',     label: 'Соцсети' },
     ];
 
     // Определяем текущую страницу
