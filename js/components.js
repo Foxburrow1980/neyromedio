@@ -12,9 +12,8 @@
     // =====================================================
     const NAV_LINKS = [
         { href: 'index.html',      label: 'Главная' },
-        { href: 'assistants.html', label: 'Ассистенты' },
-        { href: 'solutions.html',  label: 'Решения' },
         { href: 'niches.html',     label: 'Ниши' },
+        { href: 'assistants.html', label: 'Ассистенты' },
         { href: 'social.html',     label: 'Соцсети' },
     ];
 
