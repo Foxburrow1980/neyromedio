@@ -1,0 +1,336 @@
+{
+  "name": "НЕЙРОМЕДИА АУДИТ!!! ВАЖНО",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "brief",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [416, 0],
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "id": "2c51f2d2-e472-4d9b-a896-7925bf488f6b"
+    },
+
+    {
+      "parameters": {
+        "jsCode": "const inputData = $input.all()[0];\nconst body = inputData.json || inputData.body || inputData;\n\nconst output = {\n  name: body.name || (body.body && body.body.name) || '',\n  phone: body.phone || (body.body && body.body.phone) || '',\n  company: body.company || (body.body && body.body.company) || '',\n  industry: body.industry || (body.body && body.body.industry) || '',\n  city: body.city || (body.body && body.body.city) || '',\n  business_age: body.business_age || (body.body && body.body.business_age) || '',\n  inn: body.inn || (body.body && body.body.inn) || '',\n  site: body.site || (body.body && body.body.site) || '',\n  vk: body.vk || (body.body && body.body.vk) || '',\n  telegram: body.telegram || (body.body && body.body.telegram) || '',\n  instagram: body.instagram || (body.body && body.body.instagram) || '',\n  yandex: body.yandex || (body.body && body.body.yandex) || '',\n  avito: body.avito || (body.body && body.body.avito) || '',\n  other_links: body.other_links || (body.body && body.body.other_links) || '',\n  problems: body.problems || (body.body && body.body.problems) || '',\n  goals: body.goals || (body.body && body.body.goals) || '',\n  automation_vision: body.automation_vision || (body.body && body.body.automation_vision) || '',\n  result_goal: body.result_goal || (body.body && body.body.result_goal) || '',\n  page_source: body.page_source || (body.body && body.body.page_source) || '',\n  submitted_at: new Date().toLocaleString('ru-RU'),\n  timestamp: new Date().toISOString()\n};\n\nreturn output;"
+      },
+      "name": "Transform Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [672, 0],
+      "id": "730d1014-fc07-4cdf-a1c9-53426976c6e1"
+    },
+
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1AspH_E_DhfzjcGDHQP7ujz3hl4Vwi29OIIcqAQOs6pc",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Бриф",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AspH_E_DhfzjcGDHQP7ujz3hl4Vwi29OIIcqAQOs6pc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $json.name }}",
+            "phone": "={{ $json.phone }}",
+            "company": "={{ $json.company }}",
+            "industry": "={{ $json.industry }}",
+            "city": "={{ $json.city }}",
+            "business_age": "={{ $json.business_age }}",
+            "inn": "={{ $json.inn }}",
+            "site": "={{ $json.site }}",
+            "vk": "={{ $json.vk }}",
+            "telegram": "={{ $json.telegram }}",
+            "instagram": "={{ $json.instagram }}",
+            "yandex": "={{ $json.yandex }}",
+            "avito": "={{ $json.avito }}",
+            "other_links": "={{ $json.other_links }}",
+            "problems": "={{ $json.problems }}",
+            "goals": "={{ $json.goals }}",
+            "automation_vision": "={{ $json.automation_vision }}",
+            "result_goal": "={{ $json.result_goal }}",
+            "page_source": "={{ $json.page_source }}",
+            "submitted_at": "={{ $json.submitted_at }}",
+            "timestamp": "={{ $json.timestamp }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [912, -220],
+      "id": "d67ddace-fbfb-4849-baf6-38d81a975d5e",
+      "credentials": {
+        "googleApi": {
+          "id": "tJ5Bu5ejSZwkTCms",
+          "name": "Google Service Account НАТА"
+        }
+      }
+    },
+
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-site-001",
+              "leftValue": "={{ $json.site }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "name": "IF Site Exists",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [912, 160],
+      "id": "if-site-exists-001"
+    },
+
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v1/scrape",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer ВСТАВЬТЕ_FIRECRAWL_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ url: $json.site, formats: ['markdown'], timeout: 30000 }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "name": "Firecrawl Scrape",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1152, 60],
+      "id": "firecrawl-scrape-001",
+      "continueOnFail": true
+    },
+
+    {
+      "parameters": {
+        "jsCode": "// Берём данные формы из Transform Data\nconst form = $('Transform Data').first().json;\n\n// Пробуем получить контент сайта (если пришли из ветки Firecrawl)\nlet siteContent = 'Сайт клиента не указан или недоступен для анализа.';\ntry {\n  const input = $input.first().json;\n  if (input && input.data && input.data.markdown) {\n    siteContent = input.data.markdown.substring(0, 4000);\n  }\n} catch(e) {}\n\n// Формируем ИНН-слаг (если нет ИНН — используем timestamp)\nconst inn = (form.inn && form.inn.trim().length > 5)\n  ? form.inn.trim()\n  : Date.now().toString();\n\n// Формируем промпт для AI\nconst prompt = `Ты — старший аналитик по цифровому маркетингу и автоматизации бизнеса в России. Твоя задача — сделать честный, конкретный и полезный аудит.\n\nДАННЫЕ КОМПАНИИ:\n- Название: ${form.company || 'не указано'}\n- Ниша / сфера: ${form.industry || 'не указана'}\n- Город: ${form.city || 'не указан'}\n- Возраст бизнеса: ${form.business_age || 'не указан'}\n- Сайт: ${form.site || 'не указан'}\n- VK: ${form.vk || 'нет'}\n- Telegram: ${form.telegram || 'нет'}\n- Instagram: ${form.instagram || 'нет'}\n- Яндекс Карты: ${form.yandex || 'нет'}\n- Avito: ${form.avito || 'нет'}\n- Проблемы (слова клиента): ${form.problems || 'не указаны'}\n- Цели бизнеса: ${form.goals || 'не указаны'}\n- Видение автоматизации: ${form.automation_vision || 'не указано'}\n\nАНАЛИЗ САЙТА:\n${siteContent}\n\nВерни ТОЛЬКО валидный JSON без markdown-блоков, без пояснений:\n{\n  \"company\": \"${form.company || 'Компания'}\",\n  \"industry\": \"${form.industry || 'Бизнес'}\",\n  \"city\": \"${form.city || ''}\",\n  \"score\": <число 0-100, общий индекс цифровизации>,\n  \"metrics\": {\n    \"site\": <0-100>,\n    \"social\": <0-100>,\n    \"automation\": <0-100>,\n    \"crm\": <0-100>,\n    \"marketing\": <0-100>\n  },\n  \"problems\": [\"конкретная проблема 1\", \"конкретная проблема 2\", \"конкретная проблема 3\"],\n  \"opportunities\": [\"возможность роста 1\", \"возможность роста 2\", \"возможность роста 3\"],\n  \"lost_audience\": {\n    \"vk\": \"X 000\",\n    \"telegram\": \"X 000\",\n    \"search\": \"X 000\"\n  },\n  \"roi\": {\n    \"leads\": \"+X%\",\n    \"profit\": \"XXX 000 ₽/мес\",\n    \"time\": \"XX ч/мес\"\n  },\n  \"forecast\": {\n    \"leads\": \"×X\",\n    \"profit\": \"+X%\",\n    \"time_saved\": \"X%\"\n  },\n  \"competitors\": {\n    \"social\": \"описание активности конкурентов\",\n    \"automation\": \"описание автоматизации у конкурентов\",\n    \"response_time\": \"< X мин\"\n  },\n  \"response_time\": \"текущее время ответа клиента\",\n  \"roadmap\": [\n    \"Неделя 1: ...\",\n    \"Неделя 2: ...\",\n    \"Неделя 3: ...\",\n    \"Неделя 4: ...\"\n  ]\n}`;\n\nreturn {\n  prompt: prompt,\n  inn: inn,\n  form: form\n};"
+      },
+      "name": "Prepare AI Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1400, 160],
+      "id": "prepare-ai-prompt-001"
+    },
+
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer ВСТАВЬТЕ_OPENROUTER_API_KEY"
+            },
+            {
+              "name": "HTTP-Referer",
+              "value": "https://neuromedia-nn.ru"
+            },
+            {
+              "name": "X-Title",
+              "value": "Нейромедиа Аудит"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'anthropic/claude-3.5-sonnet', messages: [{ role: 'user', content: $json.prompt }], temperature: 0.3, max_tokens: 2000 }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "name": "OpenRouter AI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1640, 160],
+      "id": "openrouter-ai-001"
+    },
+
+    {
+      "parameters": {
+        "jsCode": "const aiResponse = $input.first().json;\nconst promptData = $('Prepare AI Prompt').first().json;\nconst form = promptData.form;\nconst inn = promptData.inn;\n\nlet auditData;\ntry {\n  const content = aiResponse.choices[0].message.content;\n  // Убираем markdown-обёртку если AI вернул с ней\n  const cleaned = content\n    .replace(/```json\\n?/gi, '')\n    .replace(/```\\n?/gi, '')\n    .trim();\n  auditData = JSON.parse(cleaned);\n} catch(e) {\n  // Fallback если AI вернул невалидный JSON\n  auditData = {\n    company: form.company || 'Компания',\n    industry: form.industry || 'Бизнес',\n    city: form.city || '',\n    score: 35,\n    metrics: { site: 30, social: 20, automation: 10, crm: 15, marketing: 25 },\n    problems: [\n      'Нет автоответа на входящие заявки',\n      'Соцсети ведутся нерегулярно',\n      'Ручная обработка всех обращений'\n    ],\n    opportunities: [\n      'Telegram-бот сократит время ответа до 1 мин',\n      'Автопостинг увеличит охват в 3 раза',\n      'CRM исключит потерю заявок'\n    ],\n    lost_audience: { vk: '5 000', telegram: '3 000', search: '2 000' },\n    roi: { leads: '+40%', profit: '150 000 ₽/мес', time: '40 ч/мес' },\n    forecast: { leads: '×2', profit: '+35%', time_saved: '40%' },\n    competitors: {\n      social: 'Ведут активно, 1-2 поста в день',\n      automation: 'Используют частично',\n      response_time: '< 15 мин'\n    },\n    response_time: '> 2 часов',\n    roadmap: [\n      'Неделя 1: Настройка Telegram-бота и автоответов',\n      'Неделя 2: Подключение CRM и воронки продаж',\n      'Неделя 3: Автоматизация соцсетей',\n      'Неделя 4: Аналитика и оптимизация'\n    ]\n  };\n}\n\nreturn {\n  inn: inn,\n  auditData: auditData,\n  auditUrl: `https://neuromedia-nn.ru/audit/${inn}`,\n  clientName: form.name || '',\n  clientPhone: form.phone || '',\n  clientTelegram: form.telegram || ''\n};"
+      },
+      "name": "Parse AI Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1880, 160],
+      "id": "parse-ai-response-001"
+    },
+
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://neuromedia-nn.ru/api/save-audit",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ inn: $json.inn, secret: 'ВСТАВЬТЕ_СЕКРЕТНЫЙ_КЛЮЧ', data: $json.auditData }) }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "name": "Save Audit to Server",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [2120, 160],
+      "id": "save-audit-server-001"
+    },
+
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/botВСТАВЬТЕ_BOT_TOKEN/sendMessage",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ chat_id: 'ВСТАВЬТЕ_CHAT_ID', text: '🔔 Новый аудит готов!\\n\\n👤 ' + $json.clientName + '\\n📱 ' + $json.clientPhone + '\\n\\n🔗 Ссылка на аудит:\\n' + $json.auditUrl + '\\n\\n_Отправьте ссылку клиенту_', parse_mode: 'Markdown' }) }}",
+        "options": {}
+      },
+      "name": "Telegram Notify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [2360, 160],
+      "id": "telegram-notify-001"
+    }
+  ],
+
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          { "node": "Transform Data", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Transform Data": {
+      "main": [
+        [
+          { "node": "Google Sheets", "type": "main", "index": 0 },
+          { "node": "IF Site Exists", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "IF Site Exists": {
+      "main": [
+        [
+          { "node": "Firecrawl Scrape", "type": "main", "index": 0 }
+        ],
+        [
+          { "node": "Prepare AI Prompt", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Firecrawl Scrape": {
+      "main": [
+        [
+          { "node": "Prepare AI Prompt", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Prepare AI Prompt": {
+      "main": [
+        [
+          { "node": "OpenRouter AI", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "OpenRouter AI": {
+      "main": [
+        [
+          { "node": "Parse AI Response", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Parse AI Response": {
+      "main": [
+        [
+          { "node": "Save Audit to Server", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Save Audit to Server": {
+      "main": [
+        [
+          { "node": "Telegram Notify", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d23dc887-2c8d-4f05-9816-1e7cc6ed9071",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ef400b4db047ba8ad9d4531f35a4d06abbfc5e752cef3824edd68eb0168c2f36"
+  },
+  "id": "3U7vE9z9PTs169GM",
+  "tags": [
+    {
+      "updatedAt": "2026-02-09T14:01:12.289Z",
+      "createdAt": "2026-02-09T14:01:12.289Z",
+      "id": "9TqRtV86sIxcoiod",
+      "name": "Рабочий"
+    }
+  ]
+}

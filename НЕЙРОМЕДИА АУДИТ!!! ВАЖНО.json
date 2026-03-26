@@ -1,0 +1,351 @@
+{
+  "name": "НЕЙРОМЕДИА АУДИТ!!! ВАЖНО",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Получаем все входящие данные\nconst inputData = $input.all()[0];\nconsole.log('STEP 1 - Full input structure:', JSON.stringify(inputData, null, 2));\n\n// Пробуем разные варианты получения данных\nconst body = inputData.json || inputData.body || inputData;\n\nconsole.log('STEP 2 - Body after extraction:', JSON.stringify(body, null, 2));\n\n// Принудительно создаем объект с данными\nconst output = {\n  name: body.name || (body.body && body.body.name) || '',\n  phone: body.phone || (body.body && body.body.phone) || '',\n  company: body.company || (body.body && body.body.company) || '',\n  industry: body.industry || (body.body && body.body.industry) || '',\n  city: body.city || (body.body && body.body.city) || '',\n  business_age: body.business_age || (body.body && body.body.business_age) || '',\n  inn: body.inn || (body.body && body.body.inn) || '',\n  site: body.site || (body.body && body.body.site) || '',\n  vk: body.vk || (body.body && body.body.vk) || '',\n  telegram: body.telegram || (body.body && body.body.telegram) || '',\n  instagram: body.instagram || (body.body && body.body.instagram) || '',\n  yandex: body.yandex || (body.body && body.body.yandex) || '',\n  avito: body.avito || (body.body && body.body.avito) || '',\n  other_links: body.other_links || (body.body && body.body.other_links) || '',\n  problems: body.problems || (body.body && body.body.problems) || '',\n  goals: body.goals || (body.body && body.body.goals) || '',\n  automation_vision: body.automation_vision || (body.body && body.body.automation_vision) || '',\n  result_goal: body.result_goal || (body.body && body.body.result_goal) || '',\n  page_source: body.page_source || (body.body && body.body.page_source) || '',\n  submitted_at: new Date().toLocaleString('ru-RU'),\n  timestamp: new Date().toISOString()\n};\n\nconsole.log('STEP 3 - Final output:', JSON.stringify(output, null, 2));\nreturn output;"
+      },
+      "name": "Transform Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [
+        672,
+        -96
+      ],
+      "id": "730d1014-fc07-4cdf-a1c9-53426976c6e1"
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1AspH_E_DhfzjcGDHQP7ujz3hl4Vwi29OIIcqAQOs6pc",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Бриф",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AspH_E_DhfzjcGDHQP7ujz3hl4Vwi29OIIcqAQOs6pc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $json.name }}",
+            "phone": "={{ $json.phone }}",
+            "company": "={{ $json.company }}",
+            "industry": "={{ $json.industry }}",
+            "city": "={{ $json.city }}",
+            "business_age": "={{ $json.business_age }}",
+            "inn": "={{ $json.inn }}",
+            "site": "={{ $json.site }}",
+            "vk": "={{ $json.vk }}",
+            "telegram": "={{ $json.telegram }}",
+            "instagram": "={{ $json.instagram }}",
+            "yandex": "={{ $json.yandex }}",
+            "avito": "={{ $json.avito }}",
+            "other_links": "={{ $json.other_links }}",
+            "problems": "={{ $json.problems }}",
+            "goals": "={{ $json.goals }}",
+            "automation_vision": "={{ $json.automation_vision }}",
+            "result_goal": "={{ $json.result_goal }}",
+            "page_source": "={{ $json.page_source }}",
+            "submitted_at": "={{ $json.submitted_at }}",
+            "timestamp": "={{ $json.timestamp }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "industry",
+              "displayName": "industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "city",
+              "displayName": "city",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "business_age",
+              "displayName": "business_age",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "inn",
+              "displayName": "inn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "site",
+              "displayName": "site",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "vk",
+              "displayName": "vk",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "telegram",
+              "displayName": "telegram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "instagram",
+              "displayName": "instagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "yandex",
+              "displayName": "yandex",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "avito",
+              "displayName": "avito",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "other_links",
+              "displayName": "other_links",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "problems",
+              "displayName": "problems",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "goals",
+              "displayName": "goals",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "automation_vision",
+              "displayName": "automation_vision",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "result_goal",
+              "displayName": "result_goal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "page_source",
+              "displayName": "page_source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "submitted_at",
+              "displayName": "submitted_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        912,
+        -96
+      ],
+      "id": "d67ddace-fbfb-4849-baf6-38d81a975d5e",
+      "credentials": {
+        "googleApi": {
+          "id": "tJ5Bu5ejSZwkTCms",
+          "name": "Google Service Account НАТА"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "brief",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -96
+      ],
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "id": "2c51f2d2-e472-4d9b-a896-7925bf488f6b"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Transform Data": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Transform Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d23dc887-2c8d-4f05-9816-1e7cc6ed9070",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ef400b4db047ba8ad9d4531f35a4d06abbfc5e752cef3824edd68eb0168c2f36"
+  },
+  "id": "3U7vE9z9PTs169GM",
+  "tags": [
+    {
+      "updatedAt": "2026-02-09T14:01:12.289Z",
+      "createdAt": "2026-02-09T14:01:12.289Z",
+      "id": "9TqRtV86sIxcoiod",
+      "name": "Рабочий"
+    }
+  ]
+}

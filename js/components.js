@@ -81,7 +81,7 @@
             </div>
             <div class="footer-col">
                 <h4>Контакты</h4>
-                <a class="footer-phone" href="tel:+79092959958">+7 (909) 295-99-58</a>
+                <a class="footer-phone" href="tel:+79697621020">+7 (969) 762-10-20</a>
                 <p>Дзержинск, Октябрьская 66</p>
                 <p>Ответ в течение часа</p>
                 <a href="https://vk.com/neuro_media_nn" target="_blank">ВКонтакте</a>
